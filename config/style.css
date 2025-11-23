@@ -1,0 +1,226 @@
+/* Style général */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.container {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+}
+
+h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 1.5rem;
+}
+
+/* Style des formulaires */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+label {
+    font-weight: 600;
+    color: #555;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"] {
+    padding: 0.8rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="email"]:focus {
+    outline: none;
+    border-color: #4CAF50;
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.2);
+}
+
+/* Style des boutons */
+.btn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 0.8rem;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #45a049;
+}
+
+/* Messages d'erreur */
+.error-message {
+    color: #ff0000;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+}
+
+/* Liens */
+.links {
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.links a {
+    color: #4CAF50;
+    text-decoration: none;
+}
+
+.links a:hover {
+    text-decoration: underline;
+}
+
+/* espacement */
+
+table {
+  table-layout: fixed;
+  width: 100%;
+  border-collapse: collapse;
+  border: 3px solid purple;
+}
+
+/* Reusable table class for consistent styling */
+.my-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    margin: 1rem 0;
+}
+.my-table th,
+.my-table td {
+    border: 1px solid rgba(0,0,0,0.12);
+    padding: 0.6rem 0.75rem;
+    text-align: left;
+    vertical-align: middle;
+}
+.my-table th {
+    background: #fafafa;
+    font-weight: 700;
+}
+
+/* small-screen: make table readable on mobile by converting rows to blocks */
+@media (max-width: 600px) {
+    .my-table, .my-table thead, .my-table tbody, .my-table th, .my-table td, .my-table tr {
+        display: block;
+    }
+    .my-table tr { margin-bottom: 0.75rem; }
+    .my-table td {
+        padding-left: 50%;
+        position: relative;
+    }
+    .my-table td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 0;
+        width: 45%;
+        padding-left: 0.75rem;
+        font-weight: 600;
+        white-space: nowrap;
+    }
+}
+
+/* Fieldset and radio controls styling */
+fieldset {
+    background: #fff; /* match .container */
+    border: 1px solid rgba(0,0,0,0.08);
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    margin: 0 0 1rem 0;
+    box-shadow: 0 0 0 rgba(0,0,0,0); /* subtle and consistent */
+}
+
+legend {
+    padding: 0 0.5rem;
+    font-weight: 600;
+    color: #333;
+    font-size: 0.95rem;
+}
+
+.radio-group {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: 0.5rem;
+}
+
+/* Radios styled to match the site's green theme and form spacing */
+input[type="radio"] {
+    width: 1rem;
+    height: 1rem;
+    margin: 0;
+    accent-color: #4CAF50;
+    cursor: pointer;
+}
+
+.radio-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    padding: 0.35rem 0.6rem;
+    border-radius: 6px;
+    background: #fafafa;
+    border: 1px solid rgba(0,0,0,0.04);
+    color: #333;
+    font-weight: 600;
+}
+
+.radio-item:hover {
+    background: #f3fff6; /* subtle green tint on hover */
+}
+
+input[type="radio"]:focus-visible {
+    outline: 3px solid rgba(76,175,80,0.14);
+    outline-offset: 2px;
+}
+
+input[type="radio"]:disabled + .radio-item,
+input[type="radio"][disabled] + .radio-item,
+.radio-item[aria-disabled="true"] {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Fallback for browsers without accent-color: simple fake dot */
+@supports not (accent-color: red) {
+  .radio-fake {
+    --size: 1rem;
+    width: var(--size);
+    height: var(--size);
+    border-radius: 50%;
+    border: 2px solid rgba(0,0,0,0.12);
+    display: inline-block;
+    vertical-align: middle;
+    background: #fff;
+  }
+}
+
