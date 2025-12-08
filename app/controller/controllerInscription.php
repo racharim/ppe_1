@@ -34,7 +34,7 @@ if ($mdp !== $mdp2) {
     $monUtilisateur->AjouterUtilisateur();
     $monJoueur = new joueurModele ($nom, $prenom, $tel, $mail, $idNiveau, $monUtilisateur->getLastIdUtilisateur());
     $monJoueur->createJoueur($monJoueur);
-    header('Location: ../../public/index.php');
+    header('Location: ../../app/vue/accueil.php');
     exit();
 }
 

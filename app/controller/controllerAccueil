@@ -1,0 +1,8 @@
+<?php
+require_once '../../app/modele/participe.php';
+session_start();
+
+$uid = $_SESSION['utilisateur_id'];
+
+$participeModele = new participeModele();
+$matchs = $participeModele->getAllMatchByJoueur($uid);

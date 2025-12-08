@@ -1,5 +1,7 @@
 <?php
 
+require_once '../../config/database.php';
+
 class participeModele {
     private int $id_joueur;
     private int $id_match;

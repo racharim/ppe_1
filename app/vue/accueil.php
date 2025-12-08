@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="fr">
   <head>
     <meta charset="UTF-8">
@@ -18,10 +19,25 @@
         </div>
       </header>
 
+      <?php require_once 'C:/wamp64/www/ppe_1/app/controller/controllerAccueil'; ?>
       <section>
         <div >
           <h3>vos inscription :</h3>
-          <div><?php foreach() ?></div>
+          <div><?php 
+            if (isset($matchs) && !empty($matchs)) {
+              foreach($matchs as $match) { 
+          ?>
+            <div>
+              <span>  Date: <?php echo $match['date']; ?></span>
+              <span> | Sport: <?php echo $match['sport']; ?></span>
+            </div>
+            <?php 
+              }
+            } else {
+              echo '<p>Aucun match pour vous.</p>';
+            }
+          ?>
+          </div>
         </div>
 
         <div>
