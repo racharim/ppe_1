@@ -1,5 +1,6 @@
 <?php
 require_once '../../app/modele/utilisateur.php';
+require_once '../../app/modele/joueur.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $login = $_POST['login'];
@@ -13,6 +14,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         session_start();
         $_SESSION['utilisateur_id'] = $utilisateur['id_utilisateur'];
         $_SESSION['utilisateur_login'] = $utilisateur['mdp'];
+        $joueurModele = new joueurModele($utilisateur['id_utilisateur']);
+        $_SESSION['joueur'] = $joueurModele;
         header('Location: ../../app/vue/accueil.php');
         exit();
     } else {

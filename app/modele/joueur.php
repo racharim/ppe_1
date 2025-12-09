@@ -12,13 +12,22 @@ class joueurModele {
 
     function __construct($id_utilisateur){
         $this->id_utilisateur = $id_utilisateur;
-        $this->id_joueur = $this.getjoueurByUId($id_utilisateur)['id_joueur'];
-        $this->nom = $this.getjoueurByUId($id_utilisateur)['nom'];
-        $this->prenom = $this.getjoueurByUId($id_utilisateur)['prenom'];
-        $this->tel = $this.getjoueurByUId($id_utilisateur)['tel'];
-        $this->mail = $this.getjoueurByUId($id_utilisateur)['mail'];
-        $this->idNiveau = $this.getjoueurByUId($id_utilisateur)['id_Niv'];
-
+        $this->id_joueur = 0;
+        $this->nom = '';
+        $this->prenom = '';
+        $this->tel = '';
+        $this->mail = '';
+        $this->idNiveau = 0;
+        
+        $joueur = $this->getjoueurByUId($id_utilisateur);
+        if ($joueur) {
+            $this->id_joueur = $joueur['id_joueur'] ?? 0;
+            $this->nom = $joueur['nom'] ?? '';
+            $this->prenom = $joueur['prenom'] ?? '';
+            $this->tel = $joueur['tel'] ?? '';
+            $this->mail = $joueur['mail'] ?? '';
+            $this->idNiveau = $joueur['id_niv'] ?? 0;
+        }
     }
 
     function getIdJoueur() : int {
