@@ -12,7 +12,7 @@
           <h1>site d'inscription de la M2L</h1>
           <nav class="links">
             <a href="#agenda">agenda des matchs</a>
-            <a href="#sports">page de presentation des sports</a>
+            <a href="pageSports.php">page de presentation des sports</a>
             <a href="accueil.php">page d'accueil</a>
             <a href="#compte">mon compte</a>
           </nav>
