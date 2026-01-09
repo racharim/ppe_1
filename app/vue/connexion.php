@@ -3,7 +3,6 @@
     <head>
         <meta charset="UTF-8">
         <title>Connexion</title>
-        <link rel="stylesheet" href="../../config/style.css">
     </head>
     <body>
         <div class="container">
@@ -23,7 +22,7 @@
                 <button type="submit" class="btn">Se connecter</button>
             </form>
             <div class="links">
-                <a href="inscription.php">Pas encore de compte ? Inscrivez-vous</a>
+                <a href="../controller/controllerInscription.php">Pas encore de compte ? Inscrivez-vous</a>
             </div>
         </div>
     </body>

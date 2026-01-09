@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <title>Inscription</title>
-        <link rel="stylesheet" href="../../config/style.css">
+        <!-- stylesheet removed as requested -->
     </head>
     <body>
         <div class="container">
@@ -57,7 +57,7 @@
                 <button type="submit" class="btn">S'inscrire</button>
             </form>
             <div class="links">
-                <a href="connexion">Déjà inscrit ? Connectez-vous</a>
+                <a href="../controller/controllerConnexion.php">Déjà inscrit ? Connectez-vous</a>
             </div>
         </div>
     </body>

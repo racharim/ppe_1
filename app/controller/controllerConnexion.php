@@ -1,8 +1,9 @@
 <?php
 require_once '../../app/modele/utilisateur.php';
 require_once '../../app/modele/joueur.php';
+require_once '../../app/vue/connexion.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if (!empty($_POST)) {
     $login = $_POST['login'];
     $mdp = $_POST['mdp'];
 

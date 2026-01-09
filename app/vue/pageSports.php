@@ -3,10 +3,10 @@
   <head>
     <meta charset="UTF-8">
     <title>Liste des sports</title>
-    <link rel="stylesheet" href="../../config/style.css">
+    <!-- stylesheet removed as requested -->
   </head>
   <body>
-    <main class="container">
+    <main class="container container--wide">
       <h2>Liste des sports</h2>
       <?php require_once 'C:/wamp64/www/ppe_1/app/controller/controllerPageSports.php'; ?>
 

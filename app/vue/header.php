@@ -2,7 +2,7 @@
 <html lang="fr">
     <head>
         <meta charset="UTF-8">
-        <link rel="stylesheet" href="/ppe_1/config/style.css">
+        <!-- stylesheet removed as requested -->
     </head>
 
     <body>
