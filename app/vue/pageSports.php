@@ -3,17 +3,18 @@
   <head>
     <meta charset="UTF-8">
     <title>Liste des sports</title>
-    <!-- stylesheet removed as requested -->
   </head>
   <body>
-    <main class="container container--wide">
+    <main>
+      <header>
+        <?php require_once 'C:/wamp64/www/ppe_1/app/vue/partial/header.php'; ?>
+      </header>
       <h2>Liste des sports</h2>
-      <?php require_once 'C:/wamp64/www/ppe_1/app/controller/controllerPageSports.php'; ?>
 
       <?php if (empty($sports)) : ?>  
         <p>Aucun sport trouvé en base de données.</p>
       <?php else : ?>
-        <table class="my-table" role="table">
+        <table role="table">
           <thead>
             <tr>
               <th>ID</th>
@@ -32,10 +33,6 @@
           </tbody>
         </table>
       <?php endif; ?>
-
-      <div class="links">
-        <a href="accueil.php">Retour à l'accueil</a>
-      </div>
     </main>
   </body>
 </html>

@@ -58,6 +58,34 @@ class joueurModele {
         return $this->id_utilisateur;
     }
 
+    function setIdJoueur(int $id_joueur) : void {
+        $this->id_joueur = $id_joueur;
+    }
+
+    function setNom(string $nom) : void {
+        $this->nom = $nom;
+    }
+
+    function setPrenom(string $prenom) : void {
+        $this->prenom = $prenom;
+    }
+
+    function setTel(string $tel) : void {
+        $this->tel = $tel;
+    }
+
+    function setMail(string $mail) : void {
+        $this->mail = $mail;
+    }
+
+    function setIdNiveau(int $idNiveau) : void {
+        $this->idNiveau = $idNiveau;
+    }
+
+    function setIdUtilisateur(int $id_utilisateur) : void {
+        $this->id_utilisateur = $id_utilisateur;
+    }
+
     function getjoueurByUId(int $id){
         $reqSQL="SELECT * FROM joueur WHERE id_utilisateur  = :id ;";
         $requete = dataBase::get()->prepare($reqSQL);
@@ -77,7 +105,19 @@ class joueurModele {
         $requete->BindValue(':idNiveau',$joueur->idNiveau,PDO::PARAM_INT);
         $requete->BindValue(':id_utilisateur',$joueur->id_utilisateur,PDO::PARAM_INT);
         $requete->execute();
-    }    
+    } 
+    
+    function updateJoueur(){
+        $reqSQL="UPDATE joueur SET nom = :nom, prenom = :prenom, tel = :tel, mail = :mail, id_Niv = :idNiveau WHERE id_joueur = :id_joueur;";
+        $requete = dataBase::get()->prepare($reqSQL);
+        $requete->BindValue(':nom',$this->nom,PDO::PARAM_STR);
+        $requete->BindValue(':prenom',$this->prenom,PDO::PARAM_STR);
+        $requete->BindValue(':tel',$this->tel,PDO::PARAM_STR);
+        $requete->BindValue(':mail',$this->mail,PDO::PARAM_STR);
+        $requete->BindValue(':idNiveau',$this->idNiveau,PDO::PARAM_INT);
+        $requete->BindValue(':id_joueur',$this->id_joueur,PDO::PARAM_INT);
+        $requete->execute();
+    }
 }
 
     

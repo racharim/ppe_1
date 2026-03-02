@@ -4,10 +4,11 @@ require_once '../../app/modele/participe.php';
 require_once '../../app/modele/match.php';
 require_once '../../app/modele/favoris.php';
 
+
 session_start();
 
 if (!isset($_SESSION['utilisateur_id'])) {
-    header('Location: /ppe_1/app/vue/connexion.php');
+    header('Location: /ppe_1/app/controller/controllerConnexion.php');
     exit();
 }
 
@@ -32,7 +33,7 @@ if (isset($_SESSION['joueur'])) {
         foreach ($participation as $part) {
             $match = $matchModele->getMatchId($part['id_match']);
             if ($match) {
-                $matchs[] = $match;
+                $matchs[] = $match; 
             }
         }
     }
@@ -48,3 +49,4 @@ if (isset($_SESSION['joueur'])) {
         }
     }
 }
+require_once '../../app/vue/accueil.php';

@@ -3,23 +3,12 @@
   <head>
     <meta charset="UTF-8">
     <title>Accueil</title>
-    <!-- stylesheet removed as requested -->
   </head>
   <body>
     <main>
       <header>
-        <div>
-          <h1>site d'inscription de la M2L</h1>
-          <nav class="links">
-            <a href="#agenda">agenda des matchs</a>
-            <a href="pageSports.php">page de presentation des sports</a>
-            <a href="accueil.php">page d'accueil</a>
-            <a href="#compte">mon compte</a>
-          </nav>
-        </div>
-
-        <?php require_once 'C:/wamp64/www/ppe_1/app/controller/controllerAccueil.php'; ?>
-
+        <?php require_once 'C:/wamp64/www/ppe_1/app/vue/partial/header.php'; ?>
+      </header>
         <div>
           <h3>Vos inscriptions :</h3>
           <div>
@@ -61,7 +50,6 @@
             </div>
           </div>
         </div>
-      </header>
     </main>
   </body>
 </html>

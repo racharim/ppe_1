@@ -12,4 +12,12 @@ class favorisModele {
         $favoris = $requete->fetchall(PDO::FETCH_ASSOC);
         return $favoris;
     }
+
+    function addFavoris(int $idJoueur, int $idSport){
+        $reqSQL = "INSERT INTO favoris (id_joueur, id_sport) VALUES (:idJoueur, :idSport)";
+        $requete = dataBase::get()->prepare($reqSQL);
+        $requete->BindValue(':idJoueur', $idJoueur, PDO::PARAM_INT);
+        $requete->BindValue(':idSport', $idSport, PDO::PARAM_INT);
+        return $requete->execute();
+    }
 }

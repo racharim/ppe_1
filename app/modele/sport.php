@@ -20,4 +20,13 @@ class SportModele {
         $sport = $requete->fetchall(PDO::FETCH_ASSOC);
         return $sport;
     } 
+
+    function getSportById(int $id){
+        $reqSQL="SELECT * FROM sport WHERE id_sport = :id ;";
+        $requete = dataBase::get()->prepare($reqSQL);
+        $requete->BindValue(':id',$id,PDO::PARAM_INT);
+        $requete->execute();
+        $sport = $requete->fetch(PDO::FETCH_ASSOC);
+        return $sport;
+    }
 }
