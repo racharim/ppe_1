@@ -2,12 +2,15 @@
 <html lang="fr">
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Connexion</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+        <link rel="stylesheet" href="/ppe_1/config/pico.css">
     </head>
     <body>
         <div>
             <h2>Connexion</h2>
-            <form method="POST" action="/ppe_1/app/controller/controllerConnexion">
+            <form method="POST" action="/ppe_1/public/index.php?page=connexion">
 
                 <div>
                     <label for="login">Login :</label>
@@ -22,7 +25,7 @@
                 <button type="submit">Se connecter</button>
             </form>
             <div>
-                <a href="../controller/controllerInscription.php">Pas encore de compte ? Inscrivez-vous</a>
+                <a href="/ppe_1/public/index.php?page=inscription">Pas encore de compte ? Inscrivez-vous</a>
             </div>
         </div>
     </body>

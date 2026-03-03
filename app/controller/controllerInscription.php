@@ -1,7 +1,7 @@
 <?php
-require_once '../../app/modele/utilisateur.php';
-require_once '../../app/modele/joueur.php';
-require_once '../../app/vue/inscription.php';
+require_once __DIR__ . '/../modele/utilisateur.php';
+require_once __DIR__ . '/../modele/joueur.php';
+require_once __DIR__ . '/../vue/inscription.php';
 
 if (!empty($_POST)) {
     $nom = $_POST['Nom'];
@@ -29,7 +29,7 @@ if (!empty($_POST)) {
 
     if ($mdp !== $mdp2) {
         $error="Les mots de passe ne correspondent pas. Veuillez réessayer.";
-        header('Location: /ppe_1/app/vue/inscription.php?error=' . $error);
+        header('Location: /ppe_1/public/index.php?page=inscription&error=' . urlencode($error));
         exit();
     }else{
         $hashed = password_hash($mdp, PASSWORD_DEFAULT);
@@ -37,7 +37,7 @@ if (!empty($_POST)) {
         $monUtilisateur->AjouterUtilisateur();
         $monJoueur = new joueurModele ($nom, $prenom, $tel, $mail, $idNiveau, $monUtilisateur->getLastIdUtilisateur());
         $monJoueur->createJoueur($monJoueur);
-        header('Location: ../../app/vue/accueil.php');
+        header('Location: /ppe_1/public/index.php?page=accueil');
         exit();
     }
 }

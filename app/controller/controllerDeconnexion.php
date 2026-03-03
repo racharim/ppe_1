@@ -1,5 +1,5 @@
 <?php
-// Démarrer la session si elle n'est pas encore démarrée
+// Démarrer la session s'il n'y en a pas déjà (gérée par front controller)
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -10,7 +10,7 @@ $_SESSION = array();
 // Détruire la session elle-même
 session_destroy();
 
-// Rediriger vers la page d'accueil ou de connexion
-header('Location: ../controller/controllerConnexion.php');
+// Rediriger vers la page de connexion via le front controller
+header('Location: /ppe_1/public/index.php?page=connexion');
 exit();
 ?>

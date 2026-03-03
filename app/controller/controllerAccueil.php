@@ -1,14 +1,17 @@
 <?php
-require_once '../../app/modele/joueur.php';
-require_once '../../app/modele/participe.php';
-require_once '../../app/modele/match.php';
-require_once '../../app/modele/favoris.php';
+require_once __DIR__ . '/../modele/joueur.php';
+require_once __DIR__ . '/../modele/participe.php';
+require_once __DIR__ . '/../modele/match.php';
+require_once __DIR__ . '/../modele/favoris.php';
 
 
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 if (!isset($_SESSION['utilisateur_id'])) {
-    header('Location: /ppe_1/app/controller/controllerConnexion.php');
+    // demander connexion via front controller
+    header('Location: /ppe_1/public/index.php?page=connexion');
     exit();
 }
 
@@ -49,4 +52,4 @@ if (isset($_SESSION['joueur'])) {
         }
     }
 }
-require_once '../../app/vue/accueil.php';
+require_once __DIR__ . '/../vue/accueil.php';

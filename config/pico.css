@@ -1,0 +1,133 @@
+/* Pico CSS - Framework CSS minimaliste sans classes */
+@import url('https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css');
+
+:root {
+    --form-element-valid-border-color: #48bb78;
+    --form-element-invalid-border-color: #f56565;
+}
+
+body {
+    padding: 1rem;
+}
+
+nav {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+}
+
+nav a {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.9rem;
+    text-decoration: none;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    transition: all 0.2s;
+}
+
+nav a:hover {
+    background-color: var(--card-background-color);
+}
+
+/* sections d'accueil */
+.section {
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background: var(--card-background-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+}
+
+.section h3 {
+    margin-top: 0;
+    border-bottom: 2px solid var(--form-element-valid-border-color);
+    padding-bottom: 0.5rem;
+}
+
+.match-card, .event-card {
+    padding: 1rem;
+    margin-bottom: 1rem;
+    background: white;
+    border-left: 4px solid var(--form-element-valid-border-color);
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.match-card:hover, .event-card:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.match-info {
+    display: grid;
+    gap: 0.5rem;
+    font-size: 0.95rem;
+}
+
+.match-info span {
+    display: flex;
+    justify-content: space-between;
+}
+
+main {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+#calendar {
+    background: var(--card-background-color);
+    border-radius: var(--border-radius);
+    padding: 1rem;
+}
+
+/* Système d'onglets */
+.tabs {
+    display: flex;
+    gap: 0.25rem;
+    border-bottom: 2px solid var(--border-color);
+    margin-bottom: 1.5rem;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+}
+
+.tab-button {
+    padding: 0.75rem 1.5rem;
+    background: transparent;
+    border: none;
+    border-bottom: 3px solid transparent;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: all 0.2s;
+    color: var(--muted-color);
+}
+
+.tab-button:hover {
+    color: var(--form-element-valid-border-color);
+}
+
+.tab-button.active {
+    border-bottom-color: var(--form-element-valid-border-color);
+    color: var(--form-element-valid-border-color);
+}
+
+.tab-content {
+    display: none;
+    animation: fadeIn 0.2s;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.admin-section {
+    padding: 1.5rem;
+    background: var(--card-background-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+}

@@ -1,5 +1,5 @@
 <?php
-require_once '../../config/database.php';
+require_once __DIR__ . '/../../config/database.php';
 
 class matchModele{
     function getMatchByDate(string $date){
@@ -12,8 +12,9 @@ class matchModele{
     }
 
     function getAllNextMatchs(string $currentDate){
-        $reqSQL="SELECT * FROM match_ WHERE date > :date ;";
+        $reqSQL="SELECT * FROM match_ WHERE date_debut >= :date ;";
         $requete = dataBase::get()->prepare($reqSQL);
+        $requete->BindValue(':date',$currentDate,PDO::PARAM_STR);
         $requete->execute();
         $matchs = $requete->fetchAll(PDO::FETCH_ASSOC);
         return $matchs;

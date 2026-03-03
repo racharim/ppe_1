@@ -1,74 +1,87 @@
 <?php
-require_once '../../app/modele/participe.php';
-require_once '../../app/modele/match.php';
-require_once '../../app/modele/favoris.php';
-require_once '../../app/modele/joueur.php';
-require_once '../../app/modele/sport.php';
-require_once '../../app/modele/admin.php';    
-require_once '../../app/modele/coach.php';    
+require_once __DIR__ . '/../modele/participe.php';
+require_once __DIR__ . '/../modele/match.php';
+require_once __DIR__ . '/../modele/favoris.php';
+require_once __DIR__ . '/../modele/joueur.php';
+require_once __DIR__ . '/../modele/sport.php';
+require_once __DIR__ . '/../modele/admin.php';
+require_once __DIR__ . '/../modele/coach.php';
 
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 if (!isset($_SESSION['utilisateur_id'])) {
-    header('Location: /ppe_1/app/vue/connexion.php');
+    header('Location: /ppe_1/public/index.php?page=connexion');
     exit();
 }
 
 $uid = $_SESSION['utilisateur_id'];
 
-// Récupérer les matchs auxquels l'utilisateur participe
 $participeModele = new participeModele();
 $matchModele = new matchModele();
 $favorisModele = new favorisModele();
 $sports = new sportModele();
 
-$matchs = [];
-$sportsFavoris = [];
-$matchsRecommandes = [];
-$listeSport =[];
+if($_SESSION['utilisateur_type'] == 1){
 
-if (isset($_SESSION['joueur'])) {
-    $joueur = $_SESSION['joueur'];
-    $idJoueur = $joueur->getIdJoueur();
-    
-    // Matchs auxquels il participe
-    $participation = $participeModele->getAllByJoueurID($idJoueur);
-    if ($participation) {
-        foreach ($participation as $part) {
-            $match = $matchModele->getMatchId($part['id_match']);
-            if ($match) {
-                $matchs[] = $match;
+    $matchs = [];
+    $sportsFavoris = [];
+    $matchsRecommandes = [];
+    $listeSport =[];
+
+    if (isset($_SESSION['joueur'])) {
+        $joueur = $_SESSION['joueur'];
+        $idJoueur = $joueur->getIdJoueur();
+        
+        // Matchs auxquels il participe
+        $participation = $participeModele->getAllByJoueurID($idJoueur);
+        if ($participation) {
+            foreach ($participation as $part) {
+                $match = $matchModele->getMatchId($part['id_match']);
+                if ($match) {
+                    $matchs[] = $match;
+                }
+            }
+        }
+        //liste de tout les sport
+        $listeSport= $sports->getAllSports();
+
+        // Matchs recommandés basés sur les sports favoris
+        $favoris = $favorisModele->getfavorisById($idJoueur);
+        if($favoris){
+            foreach ($favoris as $fav){
+                $sportsFavoris[] = $sports->getSportById($fav['id_sport']);
+            }
+        }
+        
+
+        //modification du compte selon les données du formulaire
+        if(!empty($_POST)){
+            $joueur->setNom($_POST['nom']);
+            $joueur->setPrenom($_POST['prenom']);
+            $joueur->setTel($_POST['tel']);
+            $joueur->setMail($_POST['mail']);
+
+            $joueur->updateJoueur();
+
+            if(isset($_POST['sport'])){
+                $idSport = $_POST['sport'];
+                if($favorisModele->isFavoris($idJoueur, $idSport)){
+                    // Le sport est déjà dans les favoris, vous pouvez choisir de le supprimer ou de ne rien faire
+                    // Par exemple, pour le supprimer :
+                    $favorisModele->removeFavoris($idJoueur, $idSport);
+                } else {
+                    // Ajouter le sport aux favoris
+                    $favorisModele->addFavoris($idJoueur, $idSport);
+                }
+                header('Location: /ppe_1/public/index.php?page=compte');
+                exit();
             }
         }
     }
-    //liste de tout les sport
-    $listeSport= $sports->getAllSports();
+} elseif($_SESSION['utilisateur_type'] == 3){
 
-    // Matchs recommandés basés sur les sports favoris
-    $favoris = $favorisModele->getfavorisById($idJoueur);
-    if($favoris){
-        foreach ($favoris as $fav){
-            $sportsFavoris[] = $sports->getSportById($fav['id_sport']);
-        }
-    }
-    
-
-    //modification du compte selon les données du formulaire
-    if(!empty($_POST)){
-    $joueur->setNom($_POST['nom']);
-    $joueur->setPrenom($_POST['prenom']);
-    $joueur->setTel($_POST['tel']);
-    $joueur->setMail($_POST['mail']);
-
-    $joueur->updateJoueur();
-
-    if(isset($_POST['sport'])){
-        $idSport = $_POST['sport'];
-        $favorisModele->addFavoris($idJoueur, $idSport);
-        header('Location: /ppe_1/app/controller/controllerCompte');
-        exit();
-    }
-}
 }
     
-require_once '../../app/vue/compte.php';
+require_once __DIR__ . '/../vue/compte.php';

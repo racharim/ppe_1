@@ -1,5 +1,5 @@
 <?php
-require_once '../../config/database.php';
+require_once __DIR__ . '/../../config/database.php';
 
 class joueurModele {
     private int $id_joueur;
@@ -12,12 +12,6 @@ class joueurModele {
 
     function __construct($id_utilisateur){
         $this->id_utilisateur = $id_utilisateur;
-        $this->id_joueur = 0;
-        $this->nom = '';
-        $this->prenom = '';
-        $this->tel = '';
-        $this->mail = '';
-        $this->idNiveau = 0;
         
         $joueur = $this->getjoueurByUId($id_utilisateur);
         if ($joueur) {
@@ -28,6 +22,23 @@ class joueurModele {
             $this->mail = $joueur['mail'] ?? '';
             $this->idNiveau = $joueur['id_niv'] ?? 0;
         }
+    }
+
+public static function fromUserId(int $uid): self
+    {
+        $inst = new self(0, '', '', '', '', 0, $uid);
+
+        $data = $inst->getjoueurByUId($uid);
+        if ($data) {
+            $inst->id_joueur      = (int) ($data['id_joueur'] ?? 0);
+            $inst->nom            = $data['nom']    ?? '';
+            $inst->prenom         = $data['prenom'] ?? '';
+            $inst->tel            = $data['tel']    ?? '';
+            $inst->mail           = $data['mail']   ?? '';
+            $inst->idNiveau       = (int) ($data['id_niv'] ?? 0);
+        }
+
+        return $inst;
     }
 
     function getIdJoueur() : int {
