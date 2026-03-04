@@ -25,6 +25,14 @@ $favorisModele = new favorisModele();
 $sports = new sportModele();
 $lieuModele = new lieuModele();
 
+$messageSucces = '';
+
+// Récupérer le message de succès de la session s'il existe
+if(isset($_SESSION['messageSucces'])){
+    $messageSucces = $_SESSION['messageSucces'];
+    unset($_SESSION['messageSucces']); // Nettoyer après affichage
+}
+
 if($_SESSION['utilisateur_type'] == 1){
 
     $matchs = [];
@@ -59,30 +67,44 @@ if($_SESSION['utilisateur_type'] == 1){
         
 
         //modification du compte selon les données du formulaire
-        if(!empty($_POST)){
-            $joueur->setNom($_POST['nom']);
-            $joueur->setPrenom($_POST['prenom']);
-            $joueur->setTel($_POST['tel']);
-            $joueur->setMail($_POST['mail']);
+        if(isset($_POST['action']) && $_POST['action'] === 'update_profil'){
+            // Mettre à jour uniquement les champs fournis
+            if(isset($_POST['nom']) && !empty($_POST['nom'])){
+                $joueur->setNom($_POST['nom']);
+            }
+            if(isset($_POST['prenom']) && !empty($_POST['prenom'])){
+                $joueur->setPrenom($_POST['prenom']);
+            }
+            if(isset($_POST['tel']) && !empty($_POST['tel'])){
+                $joueur->setTel($_POST['tel']);
+            }
+            if(isset($_POST['mail']) && !empty($_POST['mail'])){
+                $joueur->setMail($_POST['mail']);
+            }
 
             $joueur->updateJoueur();
-
-            if(isset($_POST['sport'])){
+            header('Location: /ppe_1/public/index.php?page=compte');
+            exit();
+        }
+        
+        if(isset($_POST['sport'])){
                 $idSport = $_POST['sport'];
                 if($favorisModele->isFavoris($idJoueur, $idSport)){
                     // Le sport est déjà dans les favoris, vous pouvez choisir de le supprimer ou de ne rien faire
                     // Par exemple, pour le supprimer :
                     $favorisModele->removeFavoris($idJoueur, $idSport);
+                    $_SESSION['messageSucces'] = "Sport retiré de vos favoris !";
                 } else {
                     // Ajouter le sport aux favoris
                     $favorisModele->addFavoris($idJoueur, $idSport);
+                    $_SESSION['messageSucces'] = "Sport ajouté à vos favoris !";
                 }
                 header('Location: /ppe_1/public/index.php?page=compte');
                 exit();
             }
-        }
     }
-} elseif($_SESSION['utilisateur_type'] == 3){
+} 
+if($_SESSION['utilisateur_type'] == 3){
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'add_sport') {
         $nom = $_POST['nom_sport'];
         $n_joueur = (int)$_POST['n_joueur'];

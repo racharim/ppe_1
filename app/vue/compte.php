@@ -21,6 +21,7 @@
         <h3>Informations personnelles :</h3>
         <div>
           <form method="POST" action="/ppe_1/public/index.php?page=compte">
+            <input type="hidden" name="action" value="update_profil">
             <label for="nom">Nom : </label>
               <input type="text" id="nom" name="nom" value="<?php echo $_SESSION['joueur']->getNom(); ?>" required><br><br>
             <label for="prenom">Prenom : </label>
@@ -64,6 +65,7 @@
               }
             ?>
             <div>
+              <?php if(!empty($messageSucces)) { ?><p style="color: green;"><?php echo $messageSucces; ?></p><?php } ?>
               <form method="POST" action="/ppe_1/public/index.php?page=compte">
                 <label for="sport">Ajouter un sport favori :</label>
                 <select id="sport" name="sport">
@@ -77,7 +79,7 @@
                     }
                   ?>
                 </select>
-                <button type="submit">Ajouter</button>
+                <button type="submit">Modifier</button>
               </form>
             </div>
           </div>
