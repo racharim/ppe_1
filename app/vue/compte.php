@@ -95,28 +95,129 @@
 
           <!-- Onglet Utilisateurs -->
           <div id="utilisateurs" class="tab-content active">
-            <div class="admin-section">
-              <h3>Gérer les utilisateurs</h3>
-              <p>Les utilisateurs seront affichés ici.</p>
-              <!-- TODO: liste des utilisateurs avec actions -->
-            </div>
+          <div class="admin-section">
+            <h3>👤 Créer un nouveau Joueur</h3>
+            
+            <form method="POST" action="/ppe_1/public/index.php?page=compte">
+              <input type="hidden" name="action" value="add_joueur">
+              
+              <div class="grid">
+                <label>Identifiant (Login)
+                  <input type="text" name="login" placeholder="Pseudo" required>
+                </label>
+                <label>Mot de passe
+                  <input type="password" name="mdp" placeholder="****" required>
+                </label>
+              </div>
+
+              <div class="grid">
+                <label>Nom
+                  <input type="text" name="nom" required>
+                </label>
+                <label>Prénom
+                  <input type="text" name="prenom" required>
+                </label>
+              </div>
+
+              <div class="grid">
+                <label>Email
+                  <input type="email" name="mail" required>
+                </label>
+                <label>Téléphone
+                  <input type="tel" name="tel">
+                </label>
+              </div>
+
+              <label for="id_niv">Niveau</label>
+              <select name="id_niv" id="id_niv" required>
+                <option value="1">Débutant</option>
+                <option value="2">Intermédiaire</option>
+                <option value="3">Expert</option>
+              </select>
+
+              <button type="submit">Créer le compte joueur</button>
+            </form>
           </div>
+        </div>
 
           <!-- Onglet Sports -->
           <div id="sports" class="tab-content">
             <div class="admin-section">
-              <h3>Gérer les sports</h3>
-              <p>Les sports seront affichés ici.</p>
-              <!-- TODO: liste des sports avec actions -->
+              <h3>⚽ Ajouter un nouveau sport</h3>
+              
+              <form method="POST" action="/ppe_1/public/index.php?page=compte">
+                <input type="hidden" name="action" value="add_sport">
+                
+                <div class="grid">
+                  <label for="nom_sport">
+                    Nom du sport
+                    <input type="text" id="nom_sport" name="nom_sport" placeholder="Ex: Handball" required>
+                  </label>
+                  
+                  <label for="n_joueur">
+                    Nombre de joueurs
+                    <input type="number" id="n_joueur" name="n_joueur" placeholder="12" required>
+                  </label>
+                </div>
+
+                <label for="descriptif">Description</label>
+                <textarea id="descriptif" name="descriptif" style="resize: none;" placeholder="Décrivez brièvement le sport..." rows="3"></textarea>
+                
+                <button type="submit" class="contrast">Créer le sport</button>
+              </form>
             </div>
           </div>
 
           <!-- Onglet Matchs -->
           <div id="matchs" class="tab-content">
             <div class="admin-section">
-              <h3>Gérer les matchs</h3>
-              <p>Les matchs seront affichés ici.</p>
-              <!-- TODO: liste des matchs avec actions -->
+              <h3>🏆 Créer un nouveau Match</h3>
+              <form method="POST" action="/ppe_1/public/index.php?page=compte">
+                <input type="hidden" name="action" value="add_match">
+                
+                <label for="libelle">Nom du match</label>
+                <input type="text" id="libelle" name="libelle" placeholder="Ex: Tournoi d'été" required>
+
+                <div class="grid">
+                  <label for="date_debut">Date & Heure de début
+                    <input type="datetime-local" id="date_debut" name="date_debut" required>
+                  </label>
+                  <label for="date_fin">Date & Heure de fin
+                    <input type="datetime-local" id="date_fin" name="date_fin" required>
+                  </label>
+                </div>
+
+                <div class="grid">
+                  <label for="id_sport">Sport concerné
+                    <select id="id_sport" name="id_sport" required>
+                      <?php foreach ($listeSport as $sport): ?>
+                        <option value="<?= $sport['id_sport'] ?>"><?= $sport['nom'] ?></option>
+                      <?php endforeach; ?>
+                    </select>
+                  </label>
+
+                  <label for="id_niv">Niveau requis
+                    <select id="id_niv" name="id_niv" required>
+                      <option value="1">Débutant</option>
+                      <option value="2">Intermédiaire</option>
+                      <option value="3">Avancé</option>
+                    </select>
+                  </label>
+                </div>
+
+                <label for="id_lieu">Lieu du match
+                  <select id="id_lieu" name="id_lieu" required>
+                    <?php foreach ($listeLieu as $lieu): ?>
+                      <option value="<?= $lieu['id_lieu'] ?>"><?= $lieu['rue'] . ' - ' . $lieu['code_postal'] ?></option>
+                    <?php endforeach; ?>
+                  </select>
+                </label>
+
+                <label for="desc_match">Description</label>
+                <textarea id="desc_match" name="descriptif" rows="2" style="resize: none;"></textarea>
+
+                <button type="submit">Publier le match</button>
+              </form>
             </div>
           </div>
         <?php } ?>

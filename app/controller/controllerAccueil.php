@@ -42,13 +42,21 @@ if (isset($_SESSION['joueur'])) {
     }
     
     // Matchs recommandés basés sur les sports favoris
-    $favoris = $favorisModele->getfavorisById($idJoueur);
-    if ($favoris) {
-        foreach ($favoris as $fav) {
-            $matchRec = $matchModele->getMatchByFav($idJoueur);
-            if ($matchRec && !in_array($matchRec, $matchsRecommandes)) {
-                $matchsRecommandes[] = $matchRec;
-            }
+    $matchsRecommandes = $matchModele->getMatchByFav($idJoueur);
+    if (!$matchsRecommandes) {
+        $matchsRecommandes = [];
+    }
+
+    // Gestion des inscriptions et désinscriptions
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
+        if ($_POST['action'] === 'inscrire' && isset($_POST['id_match'])) {
+            $participeModele->addParticipation($idJoueur, (int)$_POST['id_match']);
+            header('Location: /ppe_1/public/index.php?page=accueil');
+            exit();
+        } elseif ($_POST['action'] === 'desinscrire' && isset($_POST['id_match'])) {
+            $participeModele->removeParticipation($idJoueur, (int)$_POST['id_match']);
+            header('Location: /ppe_1/public/index.php?page=accueil');
+            exit();
         }
     }
 }

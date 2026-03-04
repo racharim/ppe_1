@@ -17,6 +17,10 @@ nav {
     flex-wrap: wrap;
 }
 
+textarea {
+    resize: none;
+}
+
 nav a {
     padding: 0.4rem 0.8rem;
     font-size: 0.9rem;

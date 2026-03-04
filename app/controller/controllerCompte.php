@@ -6,6 +6,7 @@ require_once __DIR__ . '/../modele/joueur.php';
 require_once __DIR__ . '/../modele/sport.php';
 require_once __DIR__ . '/../modele/admin.php';
 require_once __DIR__ . '/../modele/coach.php';
+require_once __DIR__ . '/../modele/lieu.php';
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -22,6 +23,7 @@ $participeModele = new participeModele();
 $matchModele = new matchModele();
 $favorisModele = new favorisModele();
 $sports = new sportModele();
+$lieuModele = new lieuModele();
 
 if($_SESSION['utilisateur_type'] == 1){
 
@@ -81,7 +83,60 @@ if($_SESSION['utilisateur_type'] == 1){
         }
     }
 } elseif($_SESSION['utilisateur_type'] == 3){
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'add_sport') {
+        $nom = $_POST['nom_sport'];
+        $n_joueur = (int)$_POST['n_joueur'];
+        $desc = $_POST['descriptif'];
+        
+        $sports->addSport($nom, $n_joueur, $desc);
+        
+        // Redirection pour éviter de renvoyer le formulaire en actualisant
+        header('Location: /ppe_1/public/index.php?page=compte');
+        exit();
+    }
 
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'add_joueur') {
+        // 1. Créer l'utilisateur d'abord (pour avoir l'ID)
+        $login = $_POST['login'];
+        $mdp = $_POST['mdp']; // Idéalement, haché avec password_hash()
+        
+        $nouvelUtil = new UtilisateurModele($login, $mdp);
+        $nouvelUtil->AjouterUtilisateur();
+        $idUtilisateur = $nouvelUtil->getLastIdUtilisateur(); // Récupère l'ID qui vient d'être créé
+
+        // 2. Créer le joueur lié à cet utilisateur
+        $nom = $_POST['nom'];
+        $prenom = $_POST['prenom'];
+        $tel = $_POST['tel'];
+        $mail = $_POST['mail'];
+        $idNiveau = (int)$_POST['id_niv'];
+
+        $joueurModele = new joueurModele(0); // On initialise à vide
+        // On utilise une méthode pour insérer les données
+        $joueurModele->createJoueur($nom, $prenom, $tel, $mail, $idNiveau, $idUtilisateur);
+
+        header('Location: /ppe_1/public/index.php?page=compte');
+        exit();
+    }
+
+    $listeSport = $sports->getAllSports(); // Pour le formulaire de match
+    $listeLieu = $lieuModele->getAllLieux(); // Pour le formulaire de match
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
+        if ($_POST['action'] === 'add_match') {
+            $matchModele->addMatch(
+                $_POST['libelle'],
+                $_POST['descriptif'],
+                $_POST['date_debut'],
+                $_POST['date_fin'],
+                $_POST['id_niv'],
+                $_POST['id_sport'],
+                $_POST['id_lieu']
+            );
+            header('Location: /ppe_1/public/index.php?page=compte');
+            exit();
+        }
+    }
 }
     
 require_once __DIR__ . '/../vue/compte.php';

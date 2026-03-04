@@ -29,4 +29,13 @@ class SportModele {
         $sport = $requete->fetch(PDO::FETCH_ASSOC);
         return $sport;
     }
+
+    function addSport(string $nom, int $n_joueur, string $descriptif) {
+    $reqSQL = "INSERT INTO sport (nom, n_joueur, descriptif) VALUES (:nom, :n_joueur, :descriptif);";
+    $requete = dataBase::get()->prepare($reqSQL);
+    $requete->bindValue(':nom', $nom, PDO::PARAM_STR);
+    $requete->bindValue(':n_joueur', $n_joueur, PDO::PARAM_INT);
+    $requete->bindValue(':descriptif', $descriptif, PDO::PARAM_STR);
+    return $requete->execute();
+    }
 }

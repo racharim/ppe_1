@@ -27,6 +27,11 @@
               <span>Début: <code><?php echo htmlspecialchars($match['date_debut'] ?? 'N/A'); ?></code></span>
               <span>Fin: <code><?php echo htmlspecialchars($match['date_fin'] ?? 'N/A'); ?></code></span>
             </div>
+            <form method="POST" action="/ppe_1/public/index.php?page=accueil" style="display:inline;">
+              <input type="hidden" name="action" value="desinscrire">
+              <input type="hidden" name="id_match" value="<?php echo $match['id_match']; ?>">
+              <button type="submit" class="outline" style="padding: 0.25rem 0.75rem; font-size: 0.875rem;">Se désinscrire</button>
+            </form>
           </div>
         <?php
             }
@@ -48,6 +53,11 @@
               <span>Date: <code><?php echo htmlspecialchars($matchRec['date_debut'] ?? 'N/A'); ?></code></span>
               <span>Description: <em><?php echo htmlspecialchars($matchRec['descriptif'] ?? 'N/A'); ?></em></span>
             </div>
+            <form method="POST" action="/ppe_1/public/index.php?page=accueil" style="display:inline;">
+              <input type="hidden" name="action" value="inscrire">
+              <input type="hidden" name="id_match" value="<?php echo $matchRec['id_match'] ?? ''; ?>">
+              <button type="submit" class="contrast" style="padding: 0.25rem 0.75rem; font-size: 0.875rem;">S'inscrire</button>
+            </form>
           </div>
         <?php
             }
