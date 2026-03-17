@@ -13,7 +13,7 @@
       <header>
         <?php require_once __DIR__ . '/partial/header.php'; ?>
       </header>
-        <?php if($_SESSION['utilisateur_type'] == 1){ ?>
+        <?php if(isset($_SESSION['utilisateur']) && $_SESSION['utilisateur']->getTypeCompte() == 1){ ?>
         <div>
           <h2>Mon Compte</h2>
           <p>Bienvenue sur votre page de compte. Ici, vous pouvez gérer vos informations personnelles et vos préférences.</p>
@@ -23,9 +23,9 @@
           <form method="POST" action="/ppe_1/public/index.php?page=compte">
             <input type="hidden" name="action" value="update_profil">
             <label for="nom">Nom : </label>
-              <input type="text" id="nom" name="nom" value="<?php echo $_SESSION['joueur']->getNom(); ?>" required><br><br>
+              <input type="text" id="nom" name="nom" value="<?php echo $_SESSION['utilisateur']->getNom(); ?>" required><br><br>
             <label for="prenom">Prenom : </label>
-              <input type="text" id="prenom" name="prenom" value="<?php echo $_SESSION['joueur']->getPrenom(); ?>" required><br><br>
+              <input type="text" id="prenom" name="prenom" value="<?php echo $_SESSION['utilisateur']->getPrenom(); ?>" required><br><br>
             <label for="prenom">Téléphone : </label>
               <input type="text" id="tel" name="tel" value="<?php echo $_SESSION['joueur']->getTel(); ?>" required><br><br>
             <label for="prenom">Mail : </label>
@@ -84,7 +84,7 @@
             </div>
           </div>
         </div>
-        <?php } elseif($_SESSION['utilisateur_type'] == 3){ ?>
+        <?php } elseif(isset($_SESSION['utilisateur']) && $_SESSION['utilisateur']->getTypeCompte() == 3){ ?>
           <h2>🔧 Administration</h2>
           <p>Gérez les utilisateurs, les sports et les matchs.</p>
 

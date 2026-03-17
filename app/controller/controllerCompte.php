@@ -7,17 +7,17 @@ require_once __DIR__ . '/../modele/sport.php';
 require_once __DIR__ . '/../modele/admin.php';
 require_once __DIR__ . '/../modele/coach.php';
 require_once __DIR__ . '/../modele/lieu.php';
+require_once __DIR__ . '/../modele/utilisateur.php';
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-if (!isset($_SESSION['utilisateur_id'])) {
+if (!isset($_SESSION['utilisateur']) || !($_SESSION['utilisateur'] instanceof UtilisateurModele)) {
     header('Location: /ppe_1/public/index.php?page=connexion');
     exit();
 }
-
-$uid = $_SESSION['utilisateur_id'];
+$utilisateurSession = $_SESSION['utilisateur'];
 
 $participeModele = new participeModele();
 $matchModele = new matchModele();
@@ -33,7 +33,7 @@ if(isset($_SESSION['messageSucces'])){
     unset($_SESSION['messageSucces']); // Nettoyer après affichage
 }
 
-if($_SESSION['utilisateur_type'] == 1){
+if($utilisateurSession->getTypeCompte() == 1){
 
     $matchs = [];
     $sportsFavoris = [];
@@ -42,6 +42,7 @@ if($_SESSION['utilisateur_type'] == 1){
 
     if (isset($_SESSION['joueur'])) {
         $joueur = $_SESSION['joueur'];
+        $utilisateur = $_SESSION['utilisateur'];
         $idJoueur = $joueur->getIdJoueur();
         
         // Matchs auxquels il participe
@@ -70,10 +71,10 @@ if($_SESSION['utilisateur_type'] == 1){
         if(isset($_POST['action']) && $_POST['action'] === 'update_profil'){
             // Mettre à jour uniquement les champs fournis
             if(isset($_POST['nom']) && !empty($_POST['nom'])){
-                $joueur->setNom($_POST['nom']);
+                $utilisateur->setNom($_POST['nom']);
             }
             if(isset($_POST['prenom']) && !empty($_POST['prenom'])){
-                $joueur->setPrenom($_POST['prenom']);
+                $utilisateur->setPrenom($_POST['prenom']);
             }
             if(isset($_POST['tel']) && !empty($_POST['tel'])){
                 $joueur->setTel($_POST['tel']);
@@ -82,6 +83,7 @@ if($_SESSION['utilisateur_type'] == 1){
                 $joueur->setMail($_POST['mail']);
             }
 
+            $utilisateur->updateUtilisateur();
             $joueur->updateJoueur();
             header('Location: /ppe_1/public/index.php?page=compte');
             exit();
@@ -104,7 +106,7 @@ if($_SESSION['utilisateur_type'] == 1){
             }
     }
 } 
-if($_SESSION['utilisateur_type'] == 3){
+if($utilisateurSession->getTypeCompte() == 3){
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'add_sport') {
         $nom = $_POST['nom_sport'];
         $n_joueur = (int)$_POST['n_joueur'];
@@ -122,20 +124,22 @@ if($_SESSION['utilisateur_type'] == 3){
         $login = $_POST['login'];
         $mdp = $_POST['mdp']; // Idéalement, haché avec password_hash()
         
+        $nom = $_POST['nom'];
+        $prenom = $_POST['prenom'];
         $nouvelUtil = new UtilisateurModele($login, $mdp);
+        $nouvelUtil->setNom($nom);
+        $nouvelUtil->setPrenom($prenom);
+        $nouvelUtil->setTypeCompte(1);
         $nouvelUtil->AjouterUtilisateur();
         $idUtilisateur = $nouvelUtil->getLastIdUtilisateur(); // Récupère l'ID qui vient d'être créé
 
         // 2. Créer le joueur lié à cet utilisateur
-        $nom = $_POST['nom'];
-        $prenom = $_POST['prenom'];
         $tel = $_POST['tel'];
         $mail = $_POST['mail'];
         $idNiveau = (int)$_POST['id_niv'];
 
-        $joueurModele = new joueurModele(0); // On initialise à vide
-        // On utilise une méthode pour insérer les données
-        $joueurModele->createJoueur($nom, $prenom, $tel, $mail, $idNiveau, $idUtilisateur);
+        $joueurModele = new joueurModele($tel, $mail, $idNiveau, $idUtilisateur);
+        $joueurModele->createJoueur($joueurModele);
 
         header('Location: /ppe_1/public/index.php?page=compte');
         exit();

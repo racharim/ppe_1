@@ -13,7 +13,7 @@
         <?php require_once __DIR__ . '/partial/header.php'; ?>
       </header>
       
-      <?php if($_SESSION['utilisateur_type'] == 1){ ?>
+      <?php if(isset($_SESSION['utilisateur']) && $_SESSION['utilisateur']->getTypeCompte() == 1){ ?>
       
       <section class="section">
         <h3>🏆 Mes inscriptions</h3>

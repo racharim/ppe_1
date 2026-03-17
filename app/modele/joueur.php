@@ -3,54 +3,36 @@ require_once __DIR__ . '/../../config/database.php';
 
 class joueurModele {
     private int $id_joueur;
-    private string $nom;
-    private string $prenom;
     private string $tel;
     private string $mail;
     private int $idNiveau;
     private int $id_utilisateur;
 
-    function __construct($id_utilisateur){
-        $this->id_utilisateur = $id_utilisateur;
-        
-        $joueur = $this->getjoueurByUId($id_utilisateur);
-        if ($joueur) {
-            $this->id_joueur = $joueur['id_joueur'] ?? 0;
-            $this->nom = $joueur['nom'] ?? '';
-            $this->prenom = $joueur['prenom'] ?? '';
-            $this->tel = $joueur['tel'] ?? '';
-            $this->mail = $joueur['mail'] ?? '';
-            $this->idNiveau = $joueur['id_niv'] ?? 0;
-        }
+    function __construct($tel, $mail, $idNiveau, $id_utilisateur){
+        $this->tel = $tel;
+        $this->mail = $mail;
+        $this->idNiveau = (int)$idNiveau;
+        $this->id_utilisateur = (int)$id_utilisateur;
+        $this->id_joueur = 0; // Will be set when saved to DB
     }
 
-public static function fromUserId(int $uid): self
-    {
-        $inst = new self(0, '', '', '', '', 0, $uid);
+    public static function fromUserId(int $uid): self
+        {
+            $inst = new self('', '', 0, $uid);
 
-        $data = $inst->getjoueurByUId($uid);
-        if ($data) {
-            $inst->id_joueur      = (int) ($data['id_joueur'] ?? 0);
-            $inst->nom            = $data['nom']    ?? '';
-            $inst->prenom         = $data['prenom'] ?? '';
-            $inst->tel            = $data['tel']    ?? '';
-            $inst->mail           = $data['mail']   ?? '';
-            $inst->idNiveau       = (int) ($data['id_niv'] ?? 0);
+            $data = $inst->getjoueurByUId($uid);
+            if ($data) {
+                $inst->id_joueur      = (int) ($data['id_joueur'] ?? 0);
+                $inst->tel            = $data['tel']    ?? '';
+                $inst->mail           = $data['mail']   ?? '';
+                $inst->idNiveau       = (int) ($data['id_niv'] ?? 0);
+            }
+
+            return $inst;
         }
-
-        return $inst;
-    }
 
     function getIdJoueur() : int {
         return $this->id_joueur;
-    }
-
-    function getNom() : string {
-        return $this->nom;
-    }
-
-    function getPrenom() : string {
-        return $this->prenom;
     } 
 
     function getTel() : string {
@@ -71,14 +53,6 @@ public static function fromUserId(int $uid): self
 
     function setIdJoueur(int $id_joueur) : void {
         $this->id_joueur = $id_joueur;
-    }
-
-    function setNom(string $nom) : void {
-        $this->nom = $nom;
-    }
-
-    function setPrenom(string $prenom) : void {
-        $this->prenom = $prenom;
     }
 
     function setTel(string $tel) : void {
@@ -107,10 +81,8 @@ public static function fromUserId(int $uid): self
     }
 
     function createJoueur(joueurModele $joueur){
-        $reqSQL="INSERT INTO joueur (nom, prenom, tel, mail, id_Niv, id_utilisateur) VALUES (:nom, :prenom, :tel, :mail, :idNiveau, :id_utilisateur);";
+        $reqSQL="INSERT INTO joueur (tel, mail, id_Niv, id_utilisateur) VALUES (:tel, :mail, :idNiveau, :id_utilisateur);";
         $requete = dataBase::get()->prepare($reqSQL);
-        $requete->BindValue(':nom',$joueur->nom,PDO::PARAM_STR);
-        $requete->BindValue(':prenom',$joueur->prenom,PDO::PARAM_STR);
         $requete->BindValue(':tel',$joueur->tel,PDO::PARAM_STR);
         $requete->BindValue(':mail',$joueur->mail,PDO::PARAM_STR);
         $requete->BindValue(':idNiveau',$joueur->idNiveau,PDO::PARAM_INT);
@@ -119,10 +91,8 @@ public static function fromUserId(int $uid): self
     } 
     
     function updateJoueur(){
-        $reqSQL="UPDATE joueur SET nom = :nom, prenom = :prenom, tel = :tel, mail = :mail, id_Niv = :idNiveau WHERE id_joueur = :id_joueur;";
+        $reqSQL="UPDATE joueur SET tel = :tel, mail = :mail, id_Niv = :idNiveau WHERE id_joueur = :id_joueur;";
         $requete = dataBase::get()->prepare($reqSQL);
-        $requete->BindValue(':nom',$this->nom,PDO::PARAM_STR);
-        $requete->BindValue(':prenom',$this->prenom,PDO::PARAM_STR);
         $requete->BindValue(':tel',$this->tel,PDO::PARAM_STR);
         $requete->BindValue(':mail',$this->mail,PDO::PARAM_STR);
         $requete->BindValue(':idNiveau',$this->idNiveau,PDO::PARAM_INT);

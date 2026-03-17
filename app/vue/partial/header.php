@@ -1,28 +1,15 @@
-<?php
-// la variable page provient du front controller
-$page = $_GET['page'] ?? 'accueil';
-?>
-
 <nav>
-  <?php if ($page !== 'agenda') : ?>
-    <a href="/ppe_1/public/index.php?page=agenda">agenda des matchs</a>
+    <a class="<?php echo ($page === 'agenda') ? 'active' : ''; ?>" href="/ppe_1/public/index.php?page=agenda">agenda des matchs</a>
+
+    <a class="<?php echo ($page === 'pagesSports') ? 'active' : ''; ?>" href="/ppe_1/public/index.php?page=pagesSports">page de presentation des sports</a>
+
+    <a class="<?php echo ($page === 'accueil') ? 'active' : ''; ?>" href="/ppe_1/public/index.php?page=accueil">page d'accueil</a>
+
+    <a class="<?php echo ($page === 'compte') ? 'active' : ''; ?>" href="/ppe_1/public/index.php?page=compte">mon compte</a>
+  
+    <?php if (isset($_SESSION['utilisateur']) && $_SESSION['utilisateur']->getTypeCompte() == 3 && $page !== 'compte') : ?>
+    <a class="<?php echo ($page === 'compte') ? 'active' : ''; ?>" href="/ppe_1/public/index.php?page=compte">admin</a>
   <?php endif; ?>
 
-  <?php if ($page !== 'pagesSports') : ?>
-    <a href="/ppe_1/public/index.php?page=pagesSports">page de presentation des sports</a>
-  <?php endif; ?>
-
-  <?php if ($page !== 'accueil') : ?>
-    <a href="/ppe_1/public/index.php?page=accueil">page d'accueil</a>
-  <?php endif; ?>
-
-  <?php if ($_SESSION['utilisateur_type'] != 3 && $page !== 'compte') : ?>
-    <a href="/ppe_1/public/index.php?page=compte">mon compte</a>
-  <?php elseif ($_SESSION['utilisateur_type'] == 3 && $page !== 'compte') : ?>
-    <a href="/ppe_1/public/index.php?page=compte">admin</a>
-  <?php endif; ?>
-
-  <?php if ($page !== 'deconnexion') : ?>
-    <a href="/ppe_1/public/index.php?page=deconnexion">deconnexion</a>
-  <?php endif; ?>
+    <a class="<?php echo ($page === 'deconnexion') ? 'active' : ''; ?>" href="/ppe_1/public/index.php?page=deconnexion">deconnexion</a>
 </nav> 

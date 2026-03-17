@@ -3,6 +3,7 @@
 // aucune autoload, seulement un switch sur la page demandée.
 
 // charger les définitions de classes qui peuvent être stockées en session
+require_once __DIR__ . '/../app/modele/utilisateur.php';
 require_once __DIR__ . '/../app/modele/joueur.php';
 require_once __DIR__ . '/../app/modele/coach.php';
 require_once __DIR__ . '/../app/modele/admin.php';

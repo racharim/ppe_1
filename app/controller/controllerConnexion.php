@@ -12,22 +12,20 @@ if (!empty($_POST)) {
     $utilisateurModele = new UtilisateurModele($login, $mdp);
     $utilisateur = $utilisateurModele->getUtil($login, $mdp);
 
-    if ($utilisateur['mdp']==$mdp) {
+    if ($utilisateur && isset($utilisateur['mdp']) && $utilisateur['mdp'] == $mdp) {
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
-        $_SESSION['utilisateur_id'] = $utilisateur['id_utilisateur'];
-        $_SESSION['utilisateur_login'] = $utilisateur['mdp'];
-        $_SESSION['utilisateur_type'] = $utilisateur['type_compte'];
+        $_SESSION['utilisateur'] = $utilisateurModele; // Stocker les données de l'utilisateur dans la session
         
-        if($utilisateur['type_compte']== 1){
-            $joueurModele = joueurModele::fromUserId($utilisateur['id_utilisateur']);
+        if($utilisateurModele->getTypeCompte() == 1){
+            $joueurModele = joueurModele::fromUserId($utilisateurModele->getId());
             $_SESSION['joueur'] = $joueurModele;
-        }else if($utilisateur['type_compte']== 2){
-            $coachModele = new coachModele($utilisateur['id_utilisateur']);
+        }else if($utilisateurModele->getTypeCompte() == 2){
+            $coachModele = new coachModele($utilisateurModele->getId());
             $_SESSION['coach'] = $coachModele;
-        }else if($utilisateur['type_compte']== 3){
-            $adminModele = new adminModele($utilisateur['id_utilisateur']);
+        }else if($utilisateurModele->getTypeCompte() == 3){
+            $adminModele = new adminModele($utilisateurModele->getId());
             $_SESSION['admin'] = $adminModele;
         }
         // redirection vers l'accueil via front controller

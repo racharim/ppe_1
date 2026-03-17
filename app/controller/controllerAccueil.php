@@ -9,13 +9,11 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-if (!isset($_SESSION['utilisateur_id'])) {
+if (!isset($_SESSION['utilisateur']) || !($_SESSION['utilisateur'] instanceof UtilisateurModele)) {
     // demander connexion via front controller
     header('Location: /ppe_1/public/index.php?page=connexion');
     exit();
 }
-
-$uid = $_SESSION['utilisateur_id'];
 
 // Récupérer les matchs auxquels l'utilisateur participe
 $participeModele = new participeModele();

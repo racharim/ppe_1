@@ -34,6 +34,12 @@ nav a:hover {
     background-color: var(--card-background-color);
 }
 
+nav a.active {
+    background-color: var(--form-element-valid-border-color);
+    border-color: var(--form-element-valid-border-color);
+    color: var(--primary-inverse);
+}
+
 /* sections d'accueil */
 .section {
     margin-bottom: 2rem;

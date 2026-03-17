@@ -10,6 +10,24 @@
     <body>
         <div>
             <h2>inscription</h2>
+            
+            <?php 
+            // Afficher toutes les erreurs en session
+            if(isset($_SESSION['errors']) && !empty($_SESSION['errors'])): ?>
+                <article style="background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; padding: 1rem; margin-bottom: 1rem; border-radius: 0.25rem;">
+                    <strong>Erreur(s) :</strong>
+                    <ul style="margin: 0.5rem 0 0 1.5rem;">
+                        <?php foreach($_SESSION['errors'] as $error): ?>
+                            <li><?= htmlspecialchars($error) ?></li>
+                        <?php endforeach; ?>
+                    </ul>
+                </article>
+                <?php 
+                // Nettoyer les erreurs après affichage
+                unset($_SESSION['errors']); 
+                ?>
+            <?php endif; ?>
+            
             <form method="POST" action="/ppe_1/public/index.php?page=inscription">
                 <div>
                     <label for="Nom">Nom :</label>
