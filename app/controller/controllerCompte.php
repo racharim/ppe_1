@@ -105,8 +105,48 @@ if($utilisateurSession->getTypeCompte() == 1){
                 exit();
             }
     }
-} 
-if($utilisateurSession->getTypeCompte() == 3){
+} elseif($utilisateurSession->getTypeCompte() == 2){
+    if (!isset($_SESSION['coach'])) {
+        // Au cas où la session n'est pas bien initialisée
+        $_SESSION['coach'] = new coachModele($utilisateurSession->getId());
+    }
+    $coach = $_SESSION['coach'];
+    $idSportCoach = $coach->getIdSport();
+    $nomSportCoach = $coach->getSport();
+
+    if(isset($_POST['action'])) {
+        if($_POST['action'] === 'update_profil_coach'){
+            if(isset($_POST['nom']) && !empty($_POST['nom'])){
+                $utilisateurSession->setNom($_POST['nom']);
+            }
+            if(isset($_POST['prenom']) && !empty($_POST['prenom'])){
+                $utilisateurSession->setPrenom($_POST['prenom']);
+            }
+            $utilisateurSession->updateUtilisateur();
+            $_SESSION['messageSucces'] = "Profil mis à jour !";
+            header('Location: /ppe_1/public/index.php?page=compte');
+            exit();
+        }
+
+        if ($_POST['action'] === 'add_match_coach') {
+            $matchModele->addMatch(
+                $_POST['libelle'],
+                $_POST['descriptif'],
+                $_POST['date_debut'],
+                $_POST['date_fin'],
+                $_POST['id_niv'],
+                $idSportCoach, // Le coach ne peut créer que des matchs de son sport
+                $_POST['id_lieu']
+            );
+            $_SESSION['messageSucces'] = "Le match a bien été créé !";
+            header('Location: /ppe_1/public/index.php?page=compte');
+            exit();
+        }
+    }
+
+    $listeLieu = $lieuModele->getAllLieux();
+    
+} elseif($utilisateurSession->getTypeCompte() == 3){
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'add_sport') {
         $nom = $_POST['nom_sport'];
         $n_joueur = (int)$_POST['n_joueur'];
@@ -145,6 +185,53 @@ if($utilisateurSession->getTypeCompte() == 3){
         exit();
     }
 
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'add_coach') {
+        $login = $_POST['login'];
+        $mdp = $_POST['mdp'];
+        
+        $nom = $_POST['nom'];
+        $prenom = $_POST['prenom'];
+        
+        $nouvelUtil = new UtilisateurModele($login, $mdp);
+        $nouvelUtil->setNom($nom);
+        $nouvelUtil->setPrenom($prenom);
+        $nouvelUtil->setTypeCompte(2); // 2 = Coach
+        $nouvelUtil->AjouterUtilisateur();
+        $idUtilisateur = $nouvelUtil->getLastIdUtilisateur();
+
+        $idSport = (int)$_POST['id_sport'];
+        $sportData = $sports->getSportById($idSport);
+        $nomSport = $sportData ? $sportData['nom'] : '';
+
+        $monCoach = new coachModele($idUtilisateur);
+        $monCoach->setNom($nom);
+        $monCoach->setPrenom($prenom);
+        $monCoach->setIdSport($idSport);
+        $monCoach->setSport($nomSport);
+        $monCoach->createCoach();
+
+        header('Location: /ppe_1/public/index.php?page=compte');
+        exit();
+    }
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'add_admin') {
+        $login = $_POST['login'];
+        $mdp = $_POST['mdp'];
+        
+        $nom = $_POST['nom'];
+        $prenom = $_POST['prenom'];
+        
+        $nouvelUtil = new UtilisateurModele($login, $mdp);
+        $nouvelUtil->setNom($nom);
+        $nouvelUtil->setPrenom($prenom);
+        $nouvelUtil->setTypeCompte(3); // 3 = Admin
+        $nouvelUtil->AjouterUtilisateur();
+
+        $_SESSION['messageSucces'] = "Compte Administrateur créé avec succès !";
+        header('Location: /ppe_1/public/index.php?page=compte');
+        exit();
+    }
+
     $listeSport = $sports->getAllSports(); // Pour le formulaire de match
     $listeLieu = $lieuModele->getAllLieux(); // Pour le formulaire de match
 
@@ -159,10 +246,32 @@ if($utilisateurSession->getTypeCompte() == 3){
                 $_POST['id_sport'],
                 $_POST['id_lieu']
             );
+            $_SESSION['messageSucces'] = "Match créé avec succès !";
+            header('Location: /ppe_1/public/index.php?page=compte');
+            exit();
+        }
+        
+        if ($_POST['action'] === 'delete_joueur') {
+            $idToDelete = (int)$_POST['id_utilisateur'];
+            $utilisateurSession->deleteJoueurComplet($idToDelete);
+            $_SESSION['messageSucces'] = "Joueur supprimé avec succès !";
+            header('Location: /ppe_1/public/index.php?page=compte');
+            exit();
+        }
+
+        if ($_POST['action'] === 'delete_coach') {
+            $idToDelete = (int)$_POST['id_utilisateur'];
+            $utilisateurSession->deleteCoachComplet($idToDelete);
+            $_SESSION['messageSucces'] = "Coach supprimé avec succès !";
             header('Location: /ppe_1/public/index.php?page=compte');
             exit();
         }
     }
+
+    // Récupérer les listes pour les select de suppression
+    $tousLesJoueurs = $utilisateurSession->getAllJoueurs();
+    $tousLesCoachs = $utilisateurSession->getAllCoachs();
+
 }
     
 require_once __DIR__ . '/../vue/compte.php';

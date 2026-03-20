@@ -67,4 +67,3 @@ if (!empty($_POST)) {
     header('Location: /ppe_1/public/index.php?page=accueil');
     exit();
 }
-

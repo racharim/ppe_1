@@ -29,7 +29,12 @@
               <th>ID</th>
               <th>Nom</th>
               <th>Description</th>
-              <th>Action</th>
+              <?php if (isset($_SESSION['utilisateur']) && $_SESSION['utilisateur']->getTypeCompte() == 1): ?>
+                <th>Action</th>
+              <?php endif; ?>
+              <?php if (isset($_SESSION['utilisateur']) && $_SESSION['utilisateur']->getTypeCompte() == 3): ?>
+                <th>Administration</th>
+              <?php endif; ?>
             </tr>
           </thead>
           <tbody>
@@ -38,6 +43,7 @@
                 <td data-label="ID"><?php echo htmlspecialchars($sport['id_sport'] ?? $sport['id'] ?? ''); ?></td>
                 <td data-label="Nom"><?php echo htmlspecialchars($sport['nom'] ?? $sport['libelle'] ?? $sport['libéllé'] ?? ''); ?></td>
                 <td data-label="Description"><?php echo htmlspecialchars($sport['descriptif'] ?? $sport['description'] ?? ''); ?></td>
+                <?php if (isset($_SESSION['utilisateur']) && $_SESSION['utilisateur']->getTypeCompte() == 1): ?>
                 <td data-label="Action">
                   <?php 
                   $sportId = $sport['id_sport'] ?? $sport['id'] ?? 0;
@@ -54,6 +60,17 @@
                     <?php endif; ?>
                   </form>
                 </td>
+                <?php endif; ?>
+                <?php if (isset($_SESSION['utilisateur']) && $_SESSION['utilisateur']->getTypeCompte() == 3): ?>
+                <td data-label="Administration">
+                  <?php $sportId = $sport['id_sport'] ?? $sport['id'] ?? 0; ?>
+                  <form method="POST" action="/ppe_1/public/index.php?page=pagesSports" style="margin: 0;">
+                    <input type="hidden" name="id_sport" value="<?= $sportId ?>">
+                    <input type="hidden" name="action" value="delete_sport">
+                    <button type="submit" style="background-color: #d81b60; border-color: #d81b60;" onclick="return confirm('Êtes-vous sûr de vouloir supprimer définitivement ce sport ? (Ceci effacera aussi les données liées : matchs, coachs affectés, etc.)');">Supprimer</button>
+                  </form>
+                </td>
+                <?php endif; ?>
               </tr>
             <?php endforeach; ?>
           </tbody>

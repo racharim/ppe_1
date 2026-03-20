@@ -99,6 +99,14 @@ class joueurModele {
         $requete->BindValue(':id_joueur',$this->id_joueur,PDO::PARAM_INT);
         $requete->execute();
     }
+
+    function getTotalJoueurs() : int {
+        $reqSQL="SELECT COUNT(id_joueur) AS total FROM joueur;";
+        $requete = dataBase::get()->prepare($reqSQL);
+        $requete->execute();
+        $resultat = $requete->fetch(PDO::FETCH_ASSOC);
+        return (int)($resultat['total'] ?? 0);
+    }
 }
 
     

@@ -16,6 +16,10 @@ if (!empty($_POST)) {
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
+        
+        $utilisateurModele->setId($utilisateur['id_utilisateur']);
+        $utilisateurModele->updateDateConnexion();
+        
         $_SESSION['utilisateur'] = $utilisateurModele; // Stocker les données de l'utilisateur dans la session
         
         if($utilisateurModele->getTypeCompte() == 1){

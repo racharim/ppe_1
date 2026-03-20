@@ -3,6 +3,7 @@ require_once __DIR__ . '/../modele/joueur.php';
 require_once __DIR__ . '/../modele/participe.php';
 require_once __DIR__ . '/../modele/match.php';
 require_once __DIR__ . '/../modele/favoris.php';
+require_once __DIR__ . '/../modele/coach.php';
 
 
 if (session_status() === PHP_SESSION_NONE) {
@@ -24,7 +25,7 @@ $matchs = [];
 $matchsRecommandes = [];
 
 // Récupérer les participations de l'utilisateur (joueur)
-if (isset($_SESSION['joueur'])) {
+if (isset($_SESSION['joueur']) && $_SESSION['utilisateur']->getTypeCompte() == 1) {
     $joueur = $_SESSION['joueur'];
     $idJoueur = $joueur->getIdJoueur();
     
@@ -57,5 +58,22 @@ if (isset($_SESSION['joueur'])) {
             exit();
         }
     }
+} elseif (isset($_SESSION['coach']) && $_SESSION['utilisateur']->getTypeCompte() == 2) {
+    $coach = $_SESSION['coach'];
+    $idSportCoach = $coach->getIdSport();
+    $matchsCoach = $matchModele->getMatchsBySport($idSportCoach);
+} elseif ($_SESSION['utilisateur']->getTypeCompte() == 3) {
+    require_once __DIR__ . '/../modele/sport.php';
+    $sportModeleAdmin = new SportModele();
+    $statsSports = $sportModeleAdmin->getStatsJoueursParSport();
+    
+    $joueurModeleAdmin = new joueurModele('', '', 0, 0);
+    $totalJoueurs = $joueurModeleAdmin->getTotalJoueurs();
+
+    $matchsParMois = $matchModele->getMatchesParMois();
+    
+    // Obtenir les 5 joueurs inactifs depuis le plus longtemps
+    $utilAdmin = new UtilisateurModele('', '');
+    $oldestPlayers = $utilAdmin->getOldestConnectedPlayers();
 }
 require_once __DIR__ . '/../vue/accueil.php';

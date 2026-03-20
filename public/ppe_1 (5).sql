@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : dim. 01 mars 2026 à 10:18
+-- Généré le : jeu. 19 mars 2026 à 09:05
 -- Version du serveur : 9.1.0
 -- Version de PHP : 8.3.14
 
@@ -24,37 +24,12 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Structure de la table `admin`
---
-
-DROP TABLE IF EXISTS `admin`;
-CREATE TABLE IF NOT EXISTS `admin` (
-  `id_admin` int NOT NULL AUTO_INCREMENT,
-  `nom` varchar(50) DEFAULT NULL,
-  `prenom` varchar(50) DEFAULT NULL,
-  `id_utilisateur` int NOT NULL,
-  PRIMARY KEY (`id_admin`),
-  UNIQUE KEY `id_utilisateur` (`id_utilisateur`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Déchargement des données de la table `admin`
---
-
-INSERT INTO `admin` (`id_admin`, `nom`, `prenom`, `id_utilisateur`) VALUES
-(1, 'Chevalier', 'Alex', 3);
-
--- --------------------------------------------------------
-
---
 -- Structure de la table `coach`
 --
 
 DROP TABLE IF EXISTS `coach`;
 CREATE TABLE IF NOT EXISTS `coach` (
   `id_coach` int NOT NULL AUTO_INCREMENT,
-  `nom` varchar(50) DEFAULT NULL,
-  `prenom` varchar(50) DEFAULT NULL,
   `sport` varchar(50) DEFAULT NULL,
   `id_sport` int NOT NULL,
   `id_utilisateur` int NOT NULL,
@@ -67,8 +42,8 @@ CREATE TABLE IF NOT EXISTS `coach` (
 -- Déchargement des données de la table `coach`
 --
 
-INSERT INTO `coach` (`id_coach`, `nom`, `prenom`, `sport`, `id_sport`, `id_utilisateur`) VALUES
-(1, 'Albert', 'Claire', 'Entraîneur Football', 1, 4);
+INSERT INTO `coach` (`id_coach`, `sport`, `id_sport`, `id_utilisateur`) VALUES
+(1, 'Entraîneur Football', 1, 4);
 
 -- --------------------------------------------------------
 
@@ -95,7 +70,10 @@ INSERT INTO `favoris` (`id_joueur`, `id_sport`, `libelle`) VALUES
 (2, 3, 'Pour se défouler'),
 (3, 1, NULL),
 (3, 2, NULL),
-(3, 3, NULL);
+(3, 3, NULL),
+(3, 4, NULL),
+(12, 1, NULL),
+(12, 3, NULL);
 
 -- --------------------------------------------------------
 
@@ -106,8 +84,6 @@ INSERT INTO `favoris` (`id_joueur`, `id_sport`, `libelle`) VALUES
 DROP TABLE IF EXISTS `joueur`;
 CREATE TABLE IF NOT EXISTS `joueur` (
   `id_joueur` int NOT NULL AUTO_INCREMENT,
-  `nom` varchar(50) NOT NULL,
-  `prenom` varchar(50) NOT NULL,
   `tel` varchar(50) DEFAULT NULL,
   `mail` varchar(50) DEFAULT NULL,
   `id_niv` int NOT NULL,
@@ -115,16 +91,21 @@ CREATE TABLE IF NOT EXISTS `joueur` (
   PRIMARY KEY (`id_joueur`),
   UNIQUE KEY `id_utilisateur` (`id_utilisateur`),
   KEY `id_niv` (`id_niv`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `joueur`
 --
 
-INSERT INTO `joueur` (`id_joueur`, `nom`, `prenom`, `tel`, `mail`, `id_niv`, `id_utilisateur`) VALUES
-(1, 'Dupont', 'Jean', '0610101010', 'jean.dupont@mail.com', 2, 1),
-(2, 'Martin', 'Marie', '0620202020', 'marie.martin@mail.com', 3, 2),
-(3, 'esnault', 'alexis', '0646056336', 'alexisesnault11@gmail.com', 1, 16);
+INSERT INTO `joueur` (`id_joueur`, `tel`, `mail`, `id_niv`, `id_utilisateur`) VALUES
+(1, '0610101010', 'jean.dupont@mail.com', 2, 1),
+(2, '0620202020', 'marie.martin@mail.com', 3, 2),
+(3, '0646056336', 'test', 1, 16),
+(8, '0646056336', 'alexisesnault11@gmail.com', 2, 30),
+(9, '0646056336', 'alexisesnault11@gmail.com', 3, 31),
+(10, '0646056336', 'alexisesnault11@gmail.com', 2, 32),
+(11, '0646056336', 'alexisesnault11@gmail.com', 2, 33),
+(12, '0646056336', 'alexisesnault11@gmail.com', 3, 35);
 
 -- --------------------------------------------------------
 
@@ -170,7 +151,7 @@ CREATE TABLE IF NOT EXISTS `match_` (
   KEY `id_niv` (`id_niv`),
   KEY `id_sport` (`id_sport`),
   KEY `id_lieu` (`id_lieu`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `match_`
@@ -179,7 +160,11 @@ CREATE TABLE IF NOT EXISTS `match_` (
 INSERT INTO `match_` (`id_match`, `libéllé`, `descriptif`, `date_debut`, `date_fin`, `id_niv`, `id_sport`, `id_lieu`) VALUES
 (1, 'Foot 5v5 Amical', 'Match de football sans enjeu.', '2025-12-01 19:00:00', '2025-12-01 20:30:00', 2, 1, 1),
 (2, 'Tournoi Tennis', 'Simple Hommes - Défi.', '2025-12-05 14:30:00', '2025-12-05 17:00:00', 3, 2, 2),
-(3, 'foot 11v11', 'match amical 22 joueur', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 1, 1);
+(3, 'foot 11v11', 'match amical 22 joueur', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 1, 1),
+(7, 'Match test A', 'Description A', '2026-04-10 15:00:00', '2026-04-10 17:00:00', 1, 1, 1),
+(8, 'Match test B', 'Description B', '2026-04-15 18:00:00', '2026-04-15 20:00:00', 2, 2, 2),
+(9, 'Match test C', 'Description C', '2026-05-01 09:30:00', '2026-05-01 11:00:00', 3, 3, 3),
+(10, 'Tournois du BTS SIO', 'tournois entre eleve du bts sio', '2026-03-04 02:15:00', '2026-03-04 16:33:00', 3, 4, 3);
 
 -- --------------------------------------------------------
 
@@ -224,8 +209,13 @@ CREATE TABLE IF NOT EXISTS `participe` (
 INSERT INTO `participe` (`id_joueur`, `id_match`) VALUES
 (1, 1),
 (2, 1),
-(2, 2),
-(1, 3);
+(3, 1),
+(3, 2),
+(3, 3),
+(3, 7),
+(3, 8),
+(3, 9),
+(3, 10);
 
 -- --------------------------------------------------------
 
@@ -241,7 +231,7 @@ CREATE TABLE IF NOT EXISTS `sport` (
   `descriptif` text,
   PRIMARY KEY (`id_sport`),
   UNIQUE KEY `nom` (`nom`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `sport`
@@ -250,7 +240,8 @@ CREATE TABLE IF NOT EXISTS `sport` (
 INSERT INTO `sport` (`id_sport`, `nom`, `n_joueur`, `descriptif`) VALUES
 (1, 'Football', 22, 'Sport collectif populaire.'),
 (2, 'Tennis', 2, 'Sport de raquette individuel.'),
-(3, 'Basketball', 10, 'Sport de ballon avec paniers.');
+(3, 'Basketball', 10, 'Sport de ballon avec paniers.'),
+(4, 'Handball', 12, 'KAILLOU');
 
 -- --------------------------------------------------------
 
@@ -263,30 +254,33 @@ CREATE TABLE IF NOT EXISTS `utilisateur` (
   `id_utilisateur` int NOT NULL AUTO_INCREMENT,
   `nom_util` varchar(50) DEFAULT NULL,
   `mdp` varchar(50) DEFAULT NULL,
+  `nom` varchar(50) NOT NULL,
+  `prenom` varchar(50) NOT NULL,
+  `type_compte` tinyint NOT NULL DEFAULT '1',
   PRIMARY KEY (`id_utilisateur`),
   UNIQUE KEY `unicité_nom_util` (`nom_util`)
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `utilisateur`
 --
 
-INSERT INTO `utilisateur` (`id_utilisateur`, `nom_util`, `mdp`) VALUES
-(1, 'jdupond', 'pass123'),
-(2, 'mmartin', 'secure456'),
-(3, 'cadmin', 'adminpass'),
-(4, 'acoach', 'coachpass'),
-(16, 'racharim', 'a');
+INSERT INTO `utilisateur` (`id_utilisateur`, `nom_util`, `mdp`, `nom`, `prenom`, `type_compte`) VALUES
+(1, 'jdupond', 'pass123', 'Dupond', 'Jean', 1),
+(2, 'mmartin', 'secure456', 'Martin', 'Marie', 1),
+(3, 'cadmin', 'adminpass', 'Admin', 'Charles', 3),
+(4, 'acoach', 'coachpass', 'Coach', 'Alain', 2),
+(16, 'racharim', 'a', 'esnault', 'alexis', 1),
+(28, 'babaoru', '$2y$10$WG4wfJJMXJlIs6zjy7kT7uQCdPXmHBEqFkJL0ePUKte', 'Oru', 'Baba', 1),
+(30, 'a', 'a', 'Anonyme', 'Albert', 1),
+(31, 'test', 'a', 'Testeur', 'Thomas', 1),
+(32, 'b', 'a', 'Bernard', 'Benoît', 1),
+(33, 'w', 'a', 'Wilson', 'William', 1),
+(35, 'lk', 'a', 'Leroy', 'Kevin', 1);
 
 --
 -- Contraintes pour les tables déchargées
 --
-
---
--- Contraintes pour la table `admin`
---
-ALTER TABLE `admin`
-  ADD CONSTRAINT `admin_ibfk_1` FOREIGN KEY (`id_utilisateur`) REFERENCES `utilisateur` (`id_utilisateur`);
 
 --
 -- Contraintes pour la table `coach`

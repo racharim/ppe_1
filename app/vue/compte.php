@@ -84,6 +84,77 @@
             </div>
           </div>
         </div>
+        <?php } elseif(isset($_SESSION['utilisateur']) && $_SESSION['utilisateur']->getTypeCompte() == 2){ ?>
+          <h2>🏋️ Espace Coach</h2>
+          <p>Gérez votre profil et organisez des matchs pour votre catégorie : <strong><?= isset($nomSportCoach) ? htmlspecialchars($nomSportCoach) : 'Non défini' ?></strong>.</p>
+          
+          <?php if(!empty($messageSucces)) { ?><p style="color: green; font-weight: bold;"><?= htmlspecialchars($messageSucces) ?></p><?php } ?>
+
+          <div class="tabs">
+            <button class="tab-button active" data-tab="profil_coach">👤 Mon Profil</button>
+            <button class="tab-button" data-tab="matchs_coach">🏆 Créer un Match</button>
+          </div>
+
+          <!-- Onglet Profil Coach -->
+          <div id="profil_coach" class="tab-content active">
+            <div class="admin-section">
+              <h3>Modifier mes informations</h3>
+              <form method="POST" action="/ppe_1/public/index.php?page=compte">
+                <input type="hidden" name="action" value="update_profil_coach">
+                <label for="nom">Nom : </label>
+                <input type="text" id="nom" name="nom" value="<?= htmlspecialchars($_SESSION['utilisateur']->getNom()); ?>" required><br>
+                <label for="prenom">Prenom : </label>
+                <input type="text" id="prenom" name="prenom" value="<?= htmlspecialchars($_SESSION['utilisateur']->getPrenom()); ?>" required><br><br>
+                <button type="submit">Enregistrer les modifications</button>
+              </form>
+            </div>
+          </div>
+
+          <!-- Onglet Matchs Coach -->
+          <div id="matchs_coach" class="tab-content">
+            <div class="admin-section">
+              <h3>Créer un nouveau Match (<?= htmlspecialchars($nomSportCoach ?? 'votre sport') ?>)</h3>
+              <form method="POST" action="/ppe_1/public/index.php?page=compte">
+                <input type="hidden" name="action" value="add_match_coach">
+                
+                <label for="libelle">Nom de l'événement</label>
+                <input type="text" id="libelle" name="libelle" placeholder="Ex: Entraînement intensif" required>
+
+                <div class="grid">
+                  <label for="date_debut">Date & Heure de début
+                    <input type="datetime-local" id="date_debut" name="date_debut" required>
+                  </label>
+                  <label for="date_fin">Date & Heure de fin
+                    <input type="datetime-local" id="date_fin" name="date_fin" required>
+                  </label>
+                </div>
+
+                <div class="grid">
+                  <label for="id_niv">Niveau requis
+                    <select id="id_niv" name="id_niv" required>
+                      <option value="1">Débutant</option>
+                      <option value="2">Intermédiaire</option>
+                      <option value="3">Avancé</option>
+                    </select>
+                  </label>
+
+                  <label for="id_lieu">Lieu du match
+                    <select id="id_lieu" name="id_lieu" required>
+                      <?php foreach ($listeLieu as $lieu): ?>
+                        <option value="<?= $lieu['id_lieu'] ?>"><?= htmlspecialchars($lieu['rue'] . ' - ' . $lieu['code_postal']) ?></option>
+                      <?php endforeach; ?>
+                    </select>
+                  </label>
+                </div>
+
+                <label for="desc_match">Description</label>
+                <textarea id="desc_match" name="descriptif" rows="2" style="resize: none;"></textarea>
+
+                <button type="submit">Publier le match</button>
+              </form>
+            </div>
+          </div>
+
         <?php } elseif(isset($_SESSION['utilisateur']) && $_SESSION['utilisateur']->getTypeCompte() == 3){ ?>
           <h2>🔧 Administration</h2>
           <p>Gérez les utilisateurs, les sports et les matchs.</p>
@@ -138,6 +209,104 @@
               </select>
 
               <button type="submit">Créer le compte joueur</button>
+            </form>
+          </div>
+          
+          <div class="admin-section" style="margin-top: 2rem;">
+            <h3>⚽ Créer un nouveau Coach</h3>
+            
+            <form method="POST" action="/ppe_1/public/index.php?page=compte">
+              <input type="hidden" name="action" value="add_coach">
+              
+              <div class="grid">
+                <label>Identifiant (Login)
+                  <input type="text" name="login" placeholder="Pseudo" required>
+                </label>
+                <label>Mot de passe
+                  <input type="password" name="mdp" placeholder="****" required>
+                </label>
+              </div>
+
+              <div class="grid">
+                <label>Nom
+                  <input type="text" name="nom" required>
+                </label>
+                <label>Prénom
+                  <input type="text" name="prenom" required>
+                </label>
+              </div>
+
+              <label for="id_sport">Sport enseigné</label>
+              <select name="id_sport" id="id_sport" required>
+                <?php foreach ($listeSport as $sport): ?>
+                  <option value="<?= $sport['id_sport'] ?>"><?= $sport['nom'] ?></option>
+                <?php endforeach; ?>
+              </select>
+
+              <button type="submit">Créer le compte coach</button>
+            </form>
+          </div>
+
+          <div class="admin-section" style="margin-top: 2rem; border-color: #3949ab;">
+            <h3 style="color: #3949ab;">👑 Créer un nouvel Admin</h3>
+            <form method="POST" action="/ppe_1/public/index.php?page=compte">
+              <input type="hidden" name="action" value="add_admin">
+              
+              <div class="grid">
+                <label>Identifiant (Login)
+                  <input type="text" name="login" placeholder="Pseudo admin" required>
+                </label>
+                <label>Mot de passe
+                  <input type="password" name="mdp" placeholder="****" required>
+                </label>
+              </div>
+
+              <div class="grid">
+                <label>Nom
+                  <input type="text" name="nom" required>
+                </label>
+                <label>Prénom
+                  <input type="text" name="prenom" required>
+                </label>
+              </div>
+
+              <button type="submit" style="background-color: #3949ab; border-color: #3949ab;">Créer le compte administrateur</button>
+            </form>
+          </div>
+          
+          <div class="admin-section" style="margin-top: 2rem; border-color: #d81b60;">
+            <h3 style="color: #d81b60;">🗑️ Supprimer un Joueur</h3>
+            <form method="POST" action="/ppe_1/public/index.php?page=compte">
+              <input type="hidden" name="action" value="delete_joueur">
+              <label for="delete_id_joueur">Sélectionner le joueur</label>
+              <select name="id_utilisateur" id="delete_id_joueur" required>
+                <?php if (isset($tousLesJoueurs) && !empty($tousLesJoueurs)): ?>
+                  <?php foreach ($tousLesJoueurs as $j): ?>
+                    <option value="<?= $j['id_utilisateur'] ?>"><?= htmlspecialchars($j['nom'] . ' ' . $j['prenom'] . ' (' . $j['nom_util'] . ')') ?></option>
+                  <?php endforeach; ?>
+                <?php else: ?>
+                  <option value="" disabled>Aucun joueur existant</option>
+                <?php endif; ?>
+              </select>
+              <button type="submit" style="background-color: #d81b60; border-color: #d81b60;" onclick="return confirm('Êtes-vous sûr de vouloir supprimer définitivement ce joueur ?');">Supprimer ce joueur</button>
+            </form>
+          </div>
+
+          <div class="admin-section" style="margin-top: 2rem; border-color: #d81b60;">
+            <h3 style="color: #d81b60;">🗑️ Supprimer un Coach</h3>
+            <form method="POST" action="/ppe_1/public/index.php?page=compte">
+              <input type="hidden" name="action" value="delete_coach">
+              <label for="delete_id_coach">Sélectionner le coach</label>
+              <select name="id_utilisateur" id="delete_id_coach" required>
+                <?php if (isset($tousLesCoachs) && !empty($tousLesCoachs)): ?>
+                  <?php foreach ($tousLesCoachs as $c): ?>
+                    <option value="<?= $c['id_utilisateur'] ?>"><?= htmlspecialchars($c['nom'] . ' ' . $c['prenom'] . ' (' . $c['nom_util'] . ')') ?></option>
+                  <?php endforeach; ?>
+                <?php else: ?>
+                  <option value="" disabled>Aucun coach existant</option>
+                <?php endif; ?>
+              </select>
+              <button type="submit" style="background-color: #d81b60; border-color: #d81b60;" onclick="return confirm('Êtes-vous sûr de vouloir supprimer définitivement ce coach ?');">Supprimer ce coach</button>
             </form>
           </div>
         </div>

@@ -42,6 +42,18 @@ class matchModele{
         $matchs = $requete->fetchAll(PDO::FETCH_ASSOC); 
         return $matchs;
     }
+
+    function getMatchsBySport(int $idSport){
+        $reqSQL="SELECT id_match, libéllé AS nom_match, date_debut, date_fin, descriptif 
+                 FROM match_ 
+                 WHERE id_sport = :id_sport 
+                 ORDER BY date_debut ASC;";
+        $requete = dataBase::get()->prepare($reqSQL);
+        $requete->BindValue(':id_sport',$idSport,PDO::PARAM_INT);
+        $requete->execute();
+        $matchs = $requete->fetchAll(PDO::FETCH_ASSOC); 
+        return $matchs;
+    }
             
     function addMatch($libelle, $descriptif, $date_debut, $date_fin, $id_niv, $id_sport, $id_lieu) {
         $reqSQL = "INSERT INTO match_ (libéllé, descriptif, date_debut, date_fin, id_niv, id_sport, id_lieu) 
@@ -55,5 +67,15 @@ class matchModele{
         $requete->bindValue(':id_sport', $id_sport, PDO::PARAM_INT);
         $requete->bindValue(':id_lieu', $id_lieu, PDO::PARAM_INT);
         return $requete->execute();
+    }
+
+    function getMatchesParMois() {
+        $reqSQL = "SELECT DATE_FORMAT(date_debut, '%Y-%m') AS mois, COUNT(id_match) AS nb_matchs
+                   FROM match_
+                   GROUP BY mois
+                   ORDER BY mois ASC;";
+        $requete = dataBase::get()->prepare($reqSQL);
+        $requete->execute();
+        return $requete->fetchAll(PDO::FETCH_ASSOC);
     }
 }

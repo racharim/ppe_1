@@ -126,4 +126,80 @@ class UtilisateurModele {
             $this->getId()
         ]);
     }
+
+    function updateDateConnexion() : void {
+        $reqSQL="UPDATE utilisateur SET derniere_connexion = NOW() WHERE id_utilisateur = :id;";
+        $requete = dataBase::get()->prepare($reqSQL);
+        $requete->BindValue(':id', $this->getId(), PDO::PARAM_INT);
+        $requete->execute();
+    }
+
+    function getOldestConnectedPlayers() {
+        $reqSQL = "SELECT nom, prenom, derniere_connexion 
+                   FROM utilisateur 
+                   WHERE type_compte = 1 AND derniere_connexion IS NOT NULL
+                   ORDER BY derniere_connexion ASC 
+                   LIMIT 5;";
+        $requete = dataBase::get()->prepare($reqSQL);
+        $requete->execute();
+        return $requete->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    function getAllJoueurs() {
+        $reqSQL = "SELECT id_utilisateur, nom, prenom, nom_util FROM utilisateur WHERE type_compte = 1 ORDER BY nom ASC;";
+        $requete = dataBase::get()->prepare($reqSQL);
+        $requete->execute();
+        return $requete->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    function getAllCoachs() {
+        $reqSQL = "SELECT id_utilisateur, nom, prenom, nom_util FROM utilisateur WHERE type_compte = 2 ORDER BY nom ASC;";
+        $requete = dataBase::get()->prepare($reqSQL);
+        $requete->execute();
+        return $requete->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    function deleteJoueurComplet(int $id_utilisateur) {
+        // Obtenir l'id_joueur depuis l'utilisateur
+        $reqSQL = "SELECT id_joueur FROM joueur WHERE id_utilisateur = :id_utilisateur;";
+        $requete = dataBase::get()->prepare($reqSQL);
+        $requete->BindValue(':id_utilisateur', $id_utilisateur, PDO::PARAM_INT);
+        $requete->execute();
+        $joueur = $requete->fetch(PDO::FETCH_ASSOC);
+
+        if ($joueur) {
+            $id_joueur = $joueur['id_joueur'];
+            // 1. Supprimer les participations aux matchs
+            $req1 = dataBase::get()->prepare("DELETE FROM participe WHERE id_joueur = :id_joueur;");
+            $req1->BindValue(':id_joueur', $id_joueur, PDO::PARAM_INT);
+            $req1->execute();
+
+            // 2. Supprimer les favoris
+            $req2 = dataBase::get()->prepare("DELETE FROM favoris WHERE id_joueur = :id_joueur;");
+            $req2->BindValue(':id_joueur', $id_joueur, PDO::PARAM_INT);
+            $req2->execute();
+
+            // 3. Supprimer de la table joueur
+            $req3 = dataBase::get()->prepare("DELETE FROM joueur WHERE id_joueur = :id_joueur;");
+            $req3->BindValue(':id_joueur', $id_joueur, PDO::PARAM_INT);
+            $req3->execute();
+        }
+
+        // 4. Supprimer l'utilisateur
+        $req4 = dataBase::get()->prepare("DELETE FROM utilisateur WHERE id_utilisateur = :id_utilisateur;");
+        $req4->BindValue(':id_utilisateur', $id_utilisateur, PDO::PARAM_INT);
+        $req4->execute();
+    }
+
+    function deleteCoachComplet(int $id_utilisateur) {
+        // 1. Supprimer de la table coach
+        $req1 = dataBase::get()->prepare("DELETE FROM coach WHERE id_utilisateur = :id_utilisateur;");
+        $req1->BindValue(':id_utilisateur', $id_utilisateur, PDO::PARAM_INT);
+        $req1->execute();
+
+        // 2. Supprimer l'utilisateur
+        $req2 = dataBase::get()->prepare("DELETE FROM utilisateur WHERE id_utilisateur = :id_utilisateur;");
+        $req2->BindValue(':id_utilisateur', $id_utilisateur, PDO::PARAM_INT);
+        $req2->execute();
+    }
 }

@@ -42,17 +42,20 @@ if(isset($_SESSION['messageSucces'])){
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (isset($_POST['action']) && isset($_POST['id_sport']) && $idJoueur > 0) {
+    if (isset($_POST['action']) && isset($_POST['id_sport'])) {
         $idSport = (int)$_POST['id_sport'];
         
-        if ($_POST['action'] === 'inscrire') {
+        if ($_POST['action'] === 'inscrire' && $idJoueur > 0) {
             if (!$favorisModele->isFavoris($idJoueur, $idSport)) {
                 $favorisModele->addFavoris($idJoueur, $idSport);
                 $_SESSION['messageSucces'] = "Sport ajouté à vos favoris !";
             }
-        } elseif ($_POST['action'] === 'desinscrire') {
+        } elseif ($_POST['action'] === 'desinscrire' && $idJoueur > 0) {
             $favorisModele->removeFavoris($idJoueur, $idSport);
             $_SESSION['messageSucces'] = "Sport retiré de vos favoris.";
+        } elseif ($_POST['action'] === 'delete_sport' && $_SESSION['utilisateur']->getTypeCompte() == 3) {
+            $SportModele->deleteSportComplet($idSport);
+            $_SESSION['messageSucces'] = "Sport (et toutes ses données liées) supprimé avec succès.";
         }
         
         header('Location: /ppe_1/public/index.php?page=pagesSports');

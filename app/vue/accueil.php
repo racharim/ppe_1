@@ -67,6 +67,104 @@
         ?>
       </section>
 
+      <?php } elseif(isset($_SESSION['utilisateur']) && $_SESSION['utilisateur']->getTypeCompte() == 2){ ?>
+      
+      <section class="section">
+        <h3>🎯 Les matchs de votre sport</h3>
+        <?php
+        if (isset($matchsCoach) && !empty($matchsCoach)) {
+            foreach ($matchsCoach as $match) {
+        ?>
+          <div class="event-card" style="margin-bottom: 1rem;">
+            <div class="match-info">
+              <span><strong><?php echo htmlspecialchars($match['nom_match'] ?? 'N/A'); ?></strong></span>
+              <span>Date: <code><?php echo htmlspecialchars($match['date_debut'] ?? 'N/A'); ?></code></span>
+              <span>Description: <em><?php echo htmlspecialchars($match['descriptif'] ?? 'N/A'); ?></em></span>
+            </div>
+          </div>
+        <?php
+            }
+        } else {
+            echo '<p><em>Aucun match n\'est prévu pour votre sport pour l\'instant.</em></p>';
+        }
+        ?>
+      </section>
+
+      <?php } elseif(isset($_SESSION['utilisateur']) && $_SESSION['utilisateur']->getTypeCompte() == 3){ ?>
+      
+      <section class="section">
+        <h3>📊 Statistiques de la plateforme</h3>
+        <p>Vision d'ensemble de l'intérêt des joueurs pour les différents sports.</p>
+        
+        <div class="grid">
+          <article style="text-align: center;">
+            <h4 style="margin-bottom: 0;">Total des Joueurs Inscrits</h4>
+            <h1 style="color: var(--primary); font-size: 4rem; margin: 0;"><?= $totalJoueurs ?? 0 ?></h1>
+          </article>
+
+          <article>
+            <h4 style="margin-bottom: 1rem;">Répartition par sport (Favoris)</h4>
+            <?php if (isset($statsSports) && !empty($statsSports)): ?>
+              <ul style="list-style: none; padding: 0;">
+              <?php foreach ($statsSports as $stat): 
+                $nb = $stat['count_joueurs'];
+                // On compare aux joueurs totaux inscrits
+                $pourcentage = ($totalJoueurs > 0) ? round(($nb / $totalJoueurs) * 100) : 0;
+              ?>
+                <li style="margin-bottom: 1rem;">
+                  <div style="display: flex; justify-content: space-between;">
+                    <strong><?= htmlspecialchars($stat['nom']) ?></strong>
+                    <span><?= $nb ?> joueur(s) (<?= $pourcentage ?> %)</span>
+                  </div>
+                  <progress value="<?= $pourcentage ?>" max="100" style="margin-top: 0.25rem; margin-bottom: 0;"></progress>
+                </li>
+              <?php endforeach; ?>
+              </ul>
+            <?php else: ?>
+              <p><em>Aucune donnée disponible pour le moment.</em></p>
+            <?php endif; ?>
+          </article>
+
+          <article>
+            <h4 style="margin-bottom: 1rem;">Matchs programmés par mois</h4>
+            <?php if (isset($matchsParMois) && !empty($matchsParMois)): ?>
+              <ul style="list-style: none; padding: 0;">
+              <?php foreach ($matchsParMois as $m): 
+                // Formatage de YYYY-MM en MM/YYYY pour un affichage plus clair
+                $moisStr = date("m/Y", strtotime($m['mois'] . '-01'));
+              ?>
+                <li style="margin-bottom: 0.5rem; display: flex; justify-content: space-between; border-bottom: 1px solid var(--muted-border-color); padding-bottom: 0.5rem;">
+                  <strong><?= htmlspecialchars($moisStr) ?></strong>
+                  <span style="font-weight: bold; color: var(--primary);"><?= $m['nb_matchs'] ?> match(s)</span>
+                </li>
+              <?php endforeach; ?>
+              </ul>
+            <?php else: ?>
+              <p><em>Aucun match planifié.</em></p>
+            <?php endif; ?>
+          </article>
+
+          <article>
+            <h4 style="margin-bottom: 1rem;">Joueurs les plus inactifs</h4>
+            <p style="font-size: 0.85rem; color: var(--h1-color); margin-top: -0.5rem;">(Top 5 des dernières connexions les plus anciennes)</p>
+            <?php if (isset($oldestPlayers) && !empty($oldestPlayers)): ?>
+              <ul style="list-style: none; padding: 0;">
+              <?php foreach ($oldestPlayers as $player): 
+                $dateConnexion = date('d/m/Y à H:i', strtotime($player['derniere_connexion']));
+              ?>
+                <li style="margin-bottom: 0.5rem; display: flex; justify-content: space-between; border-bottom: 1px solid var(--muted-border-color); padding-bottom: 0.5rem;">
+                  <strong><?= htmlspecialchars($player['prenom'] . ' ' . $player['nom']) ?></strong>
+                  <span align="right" style="color: var(--secondary); font-size: 0.9rem;"><?= $dateConnexion ?></span>
+                </li>
+              <?php endforeach; ?>
+              </ul>
+            <?php else: ?>
+              <p><em>Aucune donnée de connexion disponible.</em></p>
+            <?php endif; ?>
+          </article>
+        </div>
+      </section>
+
       <?php } ?>
     </main>
   </body>
