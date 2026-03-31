@@ -13,7 +13,7 @@ class joueurModele {
         $this->mail = $mail;
         $this->idNiveau = (int)$idNiveau;
         $this->id_utilisateur = (int)$id_utilisateur;
-        $this->id_joueur = 0; // Will be set when saved to DB
+        $this->id_joueur = 0; // Sera défini lors de l'enregistrement en BD
     }
 
     public static function fromUserId(int $uid): self

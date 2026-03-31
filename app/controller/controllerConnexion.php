@@ -1,7 +1,6 @@
 <?php
 require_once __DIR__ . '/../modele/utilisateur.php';
 require_once __DIR__ . '/../modele/joueur.php';
-require_once __DIR__ . '/../vue/connexion.php';
 require_once __DIR__ . '/../modele/coach.php';
 require_once __DIR__ . '/../modele/admin.php';
 
@@ -12,7 +11,7 @@ if (!empty($_POST)) {
     $utilisateurModele = new UtilisateurModele($login, $mdp);
     $utilisateur = $utilisateurModele->getUtil($login, $mdp);
 
-    if ($utilisateur && isset($utilisateur['mdp']) && $utilisateur['mdp'] == $mdp) {
+    if ($utilisateur) {
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
@@ -38,7 +37,8 @@ if (!empty($_POST)) {
         exit();
     } else {
         // Échec de la connexion
-        $error = "Login ou mot de passe incorrect.";
-       
+        $error = "Identifiant ou mot de passe incorrect. Veuillez réessayer.";
     }
 }
+
+require_once __DIR__ . '/../vue/connexion.php';

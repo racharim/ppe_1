@@ -16,7 +16,8 @@
       <?php if(isset($_SESSION['utilisateur']) && $_SESSION['utilisateur']->getTypeCompte() == 1){ ?>
       
       <section class="section">
-        <h3>🏆 Mes inscriptions</h3>
+        <h3>🏆 Vos 3 prochains matchs</h3>
+        <p>Un rappel de vos prochaines échéances. <a href="/ppe_1/public/index.php?page=mes_inscriptions">Voir toutes mes inscriptions</a>.</p>
         <?php
         if (isset($matchs) && !empty($matchs)) {
             foreach ($matchs as $match) {
@@ -27,18 +28,24 @@
               <span>Début: <code><?php echo htmlspecialchars($match['date_debut'] ?? 'N/A'); ?></code></span>
               <span>Fin: <code><?php echo htmlspecialchars($match['date_fin'] ?? 'N/A'); ?></code></span>
             </div>
-            <form method="POST" action="/ppe_1/public/index.php?page=accueil" style="display:inline;">
-              <input type="hidden" name="action" value="desinscrire">
-              <input type="hidden" name="id_match" value="<?php echo $match['id_match']; ?>">
-              <button type="submit" class="outline" style="padding: 0.25rem 0.75rem; font-size: 0.875rem;">Se désinscrire</button>
-            </form>
+            <div style="margin-top: 0.5rem;">
+              <a href="/ppe_1/public/index.php?page=match_details&id=<?= $match['id_match'] ?>" role="button" class="secondary outline" style="padding: 0.25rem 0.75rem; font-size: 0.875rem;">Voir les détails</a>
+              <form method="POST" action="/ppe_1/public/index.php?page=accueil" style="display:inline;">
+                <input type="hidden" name="action" value="desinscrire">
+                <input type="hidden" name="id_match" value="<?php echo $match['id_match']; ?>">
+                <button type="submit" class="outline" style="padding: 0.25rem 0.75rem; font-size: 0.875rem; margin-left: 0.5rem; color: #d81b60; border-color: #d81b60;">Se désinscrire</button>
+              </form>
+            </div>
           </div>
         <?php
             }
         } else {
-            echo '<p><em>Vous n\'avez aucune inscription pour le moment.</em></p>';
+            echo '<p><em>Vous n\'avez aucun match à venir prochainement.</em></p>';
         }
         ?>
+        <div style="margin-top: 1rem;">
+          <a href="/ppe_1/public/index.php?page=mes_inscriptions" role="button" class="secondary" style="font-size: 0.875rem;">Toutes mes inscriptions</a>
+        </div>
       </section>
 
       <section class="section">
@@ -53,11 +60,14 @@
               <span>Date: <code><?php echo htmlspecialchars($matchRec['date_debut'] ?? 'N/A'); ?></code></span>
               <span>Description: <em><?php echo htmlspecialchars($matchRec['descriptif'] ?? 'N/A'); ?></em></span>
             </div>
-            <form method="POST" action="/ppe_1/public/index.php?page=accueil" style="display:inline;">
-              <input type="hidden" name="action" value="inscrire">
-              <input type="hidden" name="id_match" value="<?php echo $matchRec['id_match'] ?? ''; ?>">
-              <button type="submit" class="contrast" style="padding: 0.25rem 0.75rem; font-size: 0.875rem;">S'inscrire</button>
-            </form>
+            <div style="margin-top: 0.5rem;">
+              <a href="/ppe_1/public/index.php?page=match_details&id=<?= $matchRec['id_match'] ?>" role="button" class="secondary outline" style="padding: 0.25rem 0.75rem; font-size: 0.875rem;">Voir les détails</a>
+              <form method="POST" action="/ppe_1/public/index.php?page=accueil" style="display:inline;">
+                <input type="hidden" name="action" value="inscrire">
+                <input type="hidden" name="id_match" value="<?php echo $matchRec['id_match'] ?? ''; ?>">
+                <button type="submit" class="contrast" style="padding: 0.25rem 0.75rem; font-size: 0.875rem; margin-left: 0.5rem;">S'inscrire</button>
+              </form>
+            </div>
           </div>
         <?php
             }
@@ -80,6 +90,9 @@
               <span><strong><?php echo htmlspecialchars($match['nom_match'] ?? 'N/A'); ?></strong></span>
               <span>Date: <code><?php echo htmlspecialchars($match['date_debut'] ?? 'N/A'); ?></code></span>
               <span>Description: <em><?php echo htmlspecialchars($match['descriptif'] ?? 'N/A'); ?></em></span>
+            </div>
+            <div style="margin-top: 0.5rem;">
+              <a href="/ppe_1/public/index.php?page=match_details&id=<?= $match['id_match'] ?>" role="button" class="secondary outline" style="padding: 0.25rem 0.75rem; font-size: 0.875rem;">Voir les détails</a>
             </div>
           </div>
         <?php

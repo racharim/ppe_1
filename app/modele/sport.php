@@ -52,22 +52,22 @@ class SportModele {
 
     function deleteSportComplet(int $id_sport) {
         $db = dataBase::get();
-        // 1. Delete participations to matches of this sport
+        // 1. Supprimer les participations aux matchs de ce sport
         $req1 = $db->prepare("DELETE FROM participe WHERE id_match IN (SELECT id_match FROM match_ WHERE id_sport = :id_sport);");
         $req1->BindValue(':id_sport', $id_sport, PDO::PARAM_INT);
         $req1->execute();
 
-        // 2. Delete matches of this sport
+        // 2. Supprimer les matchs de ce sport
         $req2 = $db->prepare("DELETE FROM match_ WHERE id_sport = :id_sport;");
         $req2->BindValue(':id_sport', $id_sport, PDO::PARAM_INT);
         $req2->execute();
 
-        // 3. Delete favoris of this sport
+        // 3. Supprimer les favoris de ce sport
         $req3 = $db->prepare("DELETE FROM favoris WHERE id_sport = :id_sport;");
         $req3->BindValue(':id_sport', $id_sport, PDO::PARAM_INT);
         $req3->execute();
 
-        // 4. Delete coaches teaching this sport
+        // 4. Supprimer les coachs enseignant ce sport
         $req4 = $db->prepare("SELECT id_utilisateur FROM coach WHERE id_sport = :id_sport;");
         $req4->BindValue(':id_sport', $id_sport, PDO::PARAM_INT);
         $req4->execute();
@@ -85,7 +85,7 @@ class SportModele {
             }
         }
 
-        // 5. Delete the sport itself
+        // 5. Supprimer le sport lui-même
         $req6 = $db->prepare("DELETE FROM sport WHERE id_sport = :id_sport;");
         $req6->BindValue(':id_sport', $id_sport, PDO::PARAM_INT);
         $req6->execute();

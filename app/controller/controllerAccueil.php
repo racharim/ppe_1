@@ -31,14 +31,31 @@ if (isset($_SESSION['joueur']) && $_SESSION['utilisateur']->getTypeCompte() == 1
     
     // Matchs auxquels il participe
     $participation = $participeModele->getAllByJoueurID($idJoueur);
+    $tousLesMatchs = [];
     if ($participation) {
         foreach ($participation as $part) {
             $match = $matchModele->getMatchId($part['id_match']);
             if ($match) {
-                $matchs[] = $match; 
+                $tousLesMatchs[] = $match; 
             }
         }
     }
+    
+    // Garder seulement les matchs futurs et trier par date chronologique
+    $now = date('Y-m-d H:i:s');
+    $upcomingMatchs = [];
+    foreach ($tousLesMatchs as $m) {
+        if ($m['date_debut'] >= $now) {
+            $upcomingMatchs[] = $m;
+        }
+    }
+    
+    usort($upcomingMatchs, function($a, $b) {
+        return strtotime($a['date_debut']) - strtotime($b['date_debut']);
+    });
+    
+    // On ne garde que les 3 prochains
+    $matchs = array_slice($upcomingMatchs, 0, 3);
     
     // Matchs recommandés basés sur les sports favoris
     $matchsRecommandes = $matchModele->getMatchByFav($idJoueur);

@@ -65,7 +65,7 @@
               }
             ?>
             <div>
-              <?php if(!empty($messageSucces)) { ?><p style="color: green;"><?php echo $messageSucces; ?></p><?php } ?>
+              <?php if(!empty($messageSucces)) { ?><p class="text-success"><?php echo htmlspecialchars((string)$messageSucces); ?></p><?php } ?>
               <form method="POST" action="/ppe_1/public/index.php?page=compte">
                 <label for="sport">Ajouter un sport favori :</label>
                 <select id="sport" name="sport">
@@ -88,7 +88,8 @@
           <h2>🏋️ Espace Coach</h2>
           <p>Gérez votre profil et organisez des matchs pour votre catégorie : <strong><?= isset($nomSportCoach) ? htmlspecialchars($nomSportCoach) : 'Non défini' ?></strong>.</p>
           
-          <?php if(!empty($messageSucces)) { ?><p style="color: green; font-weight: bold;"><?= htmlspecialchars($messageSucces) ?></p><?php } ?>
+          <?php if(!empty($messageSucces)) { ?><p class="text-success"><?= htmlspecialchars($messageSucces) ?></p><?php } ?>
+          <?php if(!empty($messageErreur)) { ?><p class="text-error"><?= htmlspecialchars($messageErreur) ?></p><?php } ?>
 
           <div class="tabs">
             <button class="tab-button active" data-tab="profil_coach">👤 Mon Profil</button>
@@ -159,6 +160,9 @@
           <h2>🔧 Administration</h2>
           <p>Gérez les utilisateurs, les sports et les matchs.</p>
 
+          <?php if(!empty($messageSucces)) { ?><p style="color: green; font-weight: bold;"><?= htmlspecialchars($messageSucces) ?></p><?php } ?>
+          <?php if(!empty($messageErreur)) { ?><p style="color: #d81b60; font-weight: bold;"><?= htmlspecialchars($messageErreur) ?></p><?php } ?>
+
           <!-- Système d'onglets -->
           <div class="tabs">
             <button class="tab-button active" data-tab="utilisateurs">👥 Utilisateurs</button>
@@ -179,7 +183,7 @@
                   <input type="text" name="login" placeholder="Pseudo" required>
                 </label>
                 <label>Mot de passe
-                  <input type="password" name="mdp" placeholder="****" required>
+                  <input type="password" name="mdp" placeholder="****" pattern="(?=.*\d)(?=.*[A-Z])(?=.*[^a-zA-Z\d]).{8,}" title="Au moins 8 caractères, 1 majuscule, 1 chiffre et 1 caractère spécial." required>
                 </label>
               </div>
 
@@ -223,7 +227,7 @@
                   <input type="text" name="login" placeholder="Pseudo" required>
                 </label>
                 <label>Mot de passe
-                  <input type="password" name="mdp" placeholder="****" required>
+                  <input type="password" name="mdp" placeholder="****" pattern="(?=.*\d)(?=.*[A-Z])(?=.*[^a-zA-Z\d]).{8,}" title="Au moins 8 caractères, 1 majuscule, 1 chiffre et 1 caractère spécial." required>
                 </label>
               </div>
 
@@ -257,7 +261,7 @@
                   <input type="text" name="login" placeholder="Pseudo admin" required>
                 </label>
                 <label>Mot de passe
-                  <input type="password" name="mdp" placeholder="****" required>
+                  <input type="password" name="mdp" placeholder="****" pattern="(?=.*\d)(?=.*[A-Z])(?=.*[^a-zA-Z\d]).{8,}" title="Au moins 8 caractères, 1 majuscule, 1 chiffre et 1 caractère spécial." required>
                 </label>
               </div>
 

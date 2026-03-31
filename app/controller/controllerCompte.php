@@ -26,11 +26,16 @@ $sports = new sportModele();
 $lieuModele = new lieuModele();
 
 $messageSucces = '';
-
 // Récupérer le message de succès de la session s'il existe
 if(isset($_SESSION['messageSucces'])){
     $messageSucces = $_SESSION['messageSucces'];
     unset($_SESSION['messageSucces']); // Nettoyer après affichage
+}
+
+$messageErreur = '';
+if(isset($_SESSION['messageErreur'])){
+    $messageErreur = $_SESSION['messageErreur'];
+    unset($_SESSION['messageErreur']);
 }
 
 if($utilisateurSession->getTypeCompte() == 1){
@@ -160,9 +165,14 @@ if($utilisateurSession->getTypeCompte() == 1){
     }
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'add_joueur') {
-        // 1. Créer l'utilisateur d'abord (pour avoir l'ID)
         $login = $_POST['login'];
-        $mdp = $_POST['mdp']; // Idéalement, haché avec password_hash()
+        if ($utilisateurSession->isLoginTaken($login)) {
+            $_SESSION['messageErreur'] = "Ce pseudo est déjà assigné à un autre utilisateur.";
+            header('Location: /ppe_1/public/index.php?page=compte');
+            exit();
+        }
+        
+        $mdp = $_POST['mdp'];
         
         $nom = $_POST['nom'];
         $prenom = $_POST['prenom'];
@@ -187,6 +197,12 @@ if($utilisateurSession->getTypeCompte() == 1){
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'add_coach') {
         $login = $_POST['login'];
+        if ($utilisateurSession->isLoginTaken($login)) {
+            $_SESSION['messageErreur'] = "Ce pseudo est déjà assigné à un autre utilisateur.";
+            header('Location: /ppe_1/public/index.php?page=compte');
+            exit();
+        }
+
         $mdp = $_POST['mdp'];
         
         $nom = $_POST['nom'];
@@ -216,6 +232,12 @@ if($utilisateurSession->getTypeCompte() == 1){
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'add_admin') {
         $login = $_POST['login'];
+        if ($utilisateurSession->isLoginTaken($login)) {
+            $_SESSION['messageErreur'] = "Ce pseudo est déjà assigné à un autre utilisateur.";
+            header('Location: /ppe_1/public/index.php?page=compte');
+            exit();
+        }
+
         $mdp = $_POST['mdp'];
         
         $nom = $_POST['nom'];

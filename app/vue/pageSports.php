@@ -15,7 +15,7 @@
       <h2>Liste des sports</h2>
 
       <?php if (!empty($messageSucces)): ?>
-        <article style="background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; padding: 1rem; margin-bottom: 1rem; border-radius: 0.25rem;">
+        <article class="alert-success">
           <?= htmlspecialchars($messageSucces) ?>
         </article>
       <?php endif; ?>

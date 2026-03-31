@@ -33,6 +33,18 @@ if (!empty($_POST)) {
         $errors[] = "Les mots de passe ne correspondent pas.";
     }
 
+    // Vérifier la complexité du mot de passe (8 carac, 1 MAJ, 1 chiffre, 1 spécial)
+    $patternMdp = '/^(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z\d]).{8,}$/';
+    if (!preg_match($patternMdp, $mdp)) {
+        $errors[] = "Le mot de passe doit contenir au moins 8 caractères, dont 1 majuscule, 1 chiffre et 1 caractère spécial.";
+    }
+
+    // Vérifier l'unicité du login
+    $tempUtil = new UtilisateurModele('', '');
+    if ($tempUtil->isLoginTaken($login)) {
+        $errors[] = "Ce pseudo (login) est déjà pris, veuillez en choisir un autre.";
+    }
+
     // Si des erreurs existent, stocker en session et rediriger
     if (!empty($errors)) {
         $_SESSION['errors'] = $errors;

@@ -141,3 +141,111 @@ main {
     border: 1px solid var(--border-color);
     border-radius: var(--border-radius);
 }
+
+/* Alertes globales */
+.alert-error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 0.25rem;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 0.25rem;
+}
+
+/* Textes de notification en gras */
+.text-error {
+    color: #d81b60;
+    font-weight: bold;
+}
+
+.text-success {
+    color: green;
+    font-weight: bold;
+}
+.auth-page-body {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    min-height: 100vh;
+    margin: 0;
+    padding-top: 1rem;
+    background-color: var(--background-color);
+}
+
+.auth-container {
+    width: 100%;
+    max-width: 800px;
+    padding: 0 1rem;
+    margin-top: 0;
+}
+
+.auth-container article {
+    margin-top: 0;
+}
+
+.auth-container article h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.link-container {
+    text-align: center;
+    margin-top: 1.5rem;
+}
+
+/* Match Details Styles */
+.match-success-alert {
+    background-color: rgba(46, 204, 113, 0.2);
+    color: var(--color);
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 0.25rem;
+    border: 1px solid #2ecc71;
+}
+
+.match-title {
+    margin-bottom: 0;
+}
+
+.match-sport-name {
+    color: var(--primary);
+    font-weight: bold;
+    margin-top: 0.5rem;
+}
+
+.match-description-container {
+    margin-top: 1.5rem;
+}
+
+.match-description-quote {
+    margin-top: 0.5rem;
+    font-style: normal;
+    background-color: var(--card-background-color);
+}
+
+.match-details-footer {
+    margin-top: 2rem;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.match-modal-footer {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+    margin-top: 1rem;
+}
+
+.btn-no-margin {
+    margin-bottom: 0 !important;
+}

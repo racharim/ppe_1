@@ -78,4 +78,30 @@ class matchModele{
         $requete->execute();
         return $requete->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    function getMatchDetails(int $id_match) {
+        $reqSQL = "SELECT m.*, s.nom as nom_sport, l.n_rue, l.rue, l.code_postal, n.libéllé as niveau
+                   FROM match_ m
+                   JOIN sport s ON m.id_sport = s.id_sport
+                   JOIN lieu l ON m.id_lieu = l.id_lieu
+                   JOIN niveau n ON m.id_niv = n.id_niv
+                   WHERE m.id_match = :id_match;";
+        $requete = dataBase::get()->prepare($reqSQL);
+        $requete->BindValue(':id_match', $id_match, PDO::PARAM_INT);
+        $requete->execute();
+        return $requete->fetch(PDO::FETCH_ASSOC);
+    }
+
+    function updateMatch(int $id_match, string $libelle, string $descriptif, string $date_debut, string $date_fin) {
+        $reqSQL = "UPDATE match_ 
+                   SET libéllé = :libelle, descriptif = :descriptif, date_debut = :date_debut, date_fin = :date_fin
+                   WHERE id_match = :id_match;";
+        $requete = dataBase::get()->prepare($reqSQL);
+        $requete->bindValue(':libelle', $libelle, PDO::PARAM_STR);
+        $requete->bindValue(':descriptif', $descriptif, PDO::PARAM_STR);
+        $requete->bindValue(':date_debut', $date_debut, PDO::PARAM_STR);
+        $requete->bindValue(':date_fin', $date_fin, PDO::PARAM_STR);
+        $requete->bindValue(':id_match', $id_match, PDO::PARAM_INT);
+        return $requete->execute();
+    }
 }

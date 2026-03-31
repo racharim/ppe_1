@@ -38,6 +38,14 @@ switch ($page) {
         require __DIR__ . '/../app/controller/controllerPagesSports.php';
         break;
 
+    case 'match_details':
+        require __DIR__ . '/../app/controller/controllerMatchDetails.php';
+        break;
+
+    case 'mes_inscriptions':
+        require __DIR__ . '/../app/controller/controllerMesInscriptions.php';
+        break;
+
     case 'accueil':
     default:
         require __DIR__ . '/../app/controller/controllerAccueil.php';

@@ -72,16 +72,23 @@ class UtilisateurModele {
     }
 
     function getUtil(String $login, String $mdp){
-        $reqSQL="SELECT * FROM utilisateur WHERE nom_util = :login AND mdp = :mdp ;";
+        $reqSQL="SELECT * FROM utilisateur WHERE nom_util = :login;";
         $requete = dataBase::get()->prepare($reqSQL);
         $requete->BindValue(':login',$login,PDO::PARAM_STR);
-        $requete->BindValue(':mdp',$mdp,PDO::PARAM_STR);
         $requete->execute();
         $util = $requete->fetch(PDO::FETCH_ASSOC);
-        if ($util) {
+        
+        // Vérifier si l'utilisateur existe et si le mot de passe correspond au hash (ou s'il correspond au mdp en clair pour rétrocompatibilité temporaire, bien que ce soit déconseillé)
+        if ($util && password_verify($mdp, $util['mdp'])) {
             $this->hydrate($util);
+            return $util;
+        } else if ($util && $util['mdp'] === $mdp) {
+            // Optionnel : Permet de se connecter avec un ancien mdp non hashé (les vieux comptes marcheront encore)
+            $this->hydrate($util);
+            return $util;
         }
-        return $util;
+        
+        return false;
     }
     
 
@@ -97,12 +104,21 @@ class UtilisateurModele {
         return $utilisateur;
     }
 
+    function isLoginTaken(string $login): bool {
+        $reqSQL="SELECT COUNT(*) as count FROM utilisateur WHERE nom_util = :login;";
+        $requete = dataBase::get()->prepare($reqSQL);
+        $requete->BindValue(':login', $login, PDO::PARAM_STR);
+        $requete->execute();
+        $result = $requete->fetch(PDO::FETCH_ASSOC);
+        return $result['count'] > 0;
+    }
+
     function AjouterUtilisateur() : void{
         $reqSQL="INSERT INTO utilisateur (nom_util, mdp, nom, prenom, type_compte) VALUES (:login, :mdp, :nom, :prenom, :type_compte);";
         $requete = dataBase::get()->prepare($reqSQL);
-        // use getters to retrieve values
+        // utiliser les accesseurs pour récupérer les valeurs
         $requete->BindValue(':login',$this->getLogin(),PDO::PARAM_STR);
-        $requete->BindValue(':mdp',$this->getMdp(),PDO::PARAM_STR);
+        $requete->BindValue(':mdp',password_hash($this->getMdp(), PASSWORD_DEFAULT),PDO::PARAM_STR);
         $requete->BindValue(':nom',$this->getNom(),PDO::PARAM_STR);
         $requete->BindValue(':prenom',$this->getPrenom(),PDO::PARAM_STR);
         $requete->BindValue(':type_compte',$this->getTypeCompte(),PDO::PARAM_INT);

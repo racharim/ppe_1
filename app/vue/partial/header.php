@@ -5,6 +5,10 @@
 
     <a class="<?php echo ($page === 'accueil') ? 'active' : ''; ?>" href="/ppe_1/public/index.php?page=accueil">page d'accueil</a>
 
+    <?php if (isset($_SESSION['utilisateur']) && $_SESSION['utilisateur']->getTypeCompte() == 1) : ?>
+    <a class="<?php echo ($page === 'mes_inscriptions') ? 'active' : ''; ?>" href="/ppe_1/public/index.php?page=mes_inscriptions">mes inscriptions</a>
+    <?php endif; ?>
+
     <a class="<?php echo ($page === 'compte') ? 'active' : ''; ?>" href="/ppe_1/public/index.php?page=compte">mon compte</a>
   
     <?php if (isset($_SESSION['utilisateur']) && $_SESSION['utilisateur']->getTypeCompte() == 3 && $page !== 'compte') : ?>
