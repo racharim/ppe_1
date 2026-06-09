@@ -5,6 +5,7 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 require_once __DIR__ . '/../modele/match.php';
+require_once __DIR__ . '/../modele/participe.php';
 
 // Vérifier si l'utilisateur est authentifié (Optionnel mais recommandé)
 if (!isset($_SESSION['utilisateur'])) {
@@ -13,6 +14,7 @@ if (!isset($_SESSION['utilisateur'])) {
 }
 
 $matchModele = new matchModele();
+$participeModele = new participeModele();
 
 // Vérifier si l'utilisateur est autorisé à modifier (Coach = 2, Admin = 3)
 $isAuthorizedToEdit = isset($_SESSION['utilisateur']) && in_array((int)$_SESSION['utilisateur']->getTypeCompte(), [2, 3]);
@@ -33,10 +35,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
 }
 
 $matchDetails = null;
+$participants = [];
 
 if (isset($_GET['id'])) {
     $id_match = (int)$_GET['id'];
     $matchDetails = $matchModele->getMatchDetails($id_match);
+    $participants = $participeModele->getParticipantsByMatchId($id_match);
 }
 
 // Rediriger si aucun match n'a été trouvé

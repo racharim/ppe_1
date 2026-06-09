@@ -46,6 +46,10 @@ switch ($page) {
         require __DIR__ . '/../app/controller/controllerMesInscriptions.php';
         break;
 
+    case 'stats_participation':
+        require __DIR__ . '/../app/controller/controllerStatsParticipation.php';
+        break;
+
     case 'accueil':
     default:
         require __DIR__ . '/../app/controller/controllerAccueil.php';

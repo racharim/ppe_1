@@ -12,6 +12,18 @@
       <header>
         <?php require_once __DIR__ . '/partial/header.php'; ?>
       </header>
+
+      <?php if (!empty($messageSucces)): ?>
+        <article class="alert-success">
+          <?= htmlspecialchars($messageSucces) ?>
+        </article>
+      <?php endif; ?>
+
+      <?php if (!empty($messageErreur)): ?>
+        <article style="border-left: 4px solid #d81b60; background: #fff0f4; color: #8e1644;">
+          <?= htmlspecialchars($messageErreur) ?>
+        </article>
+      <?php endif; ?>
       
       <?php if(isset($_SESSION['utilisateur']) && $_SESSION['utilisateur']->getTypeCompte() == 1){ ?>
       
@@ -25,6 +37,8 @@
           <div class="match-card">
             <div class="match-info">
               <span><strong><?php echo htmlspecialchars($match['libéllé'] ?? 'N/A'); ?></strong></span>
+              <span>Sport: <strong><?php echo htmlspecialchars($match['nom_sport'] ?? 'N/A'); ?></strong></span>
+              <span>Lieu: <em><?php echo htmlspecialchars(($match['n_rue'] ?? '') . ' ' . ($match['rue'] ?? '') . ', ' . ($match['code_postal'] ?? '')); ?></em></span>
               <span>Début: <code><?php echo htmlspecialchars($match['date_debut'] ?? 'N/A'); ?></code></span>
               <span>Fin: <code><?php echo htmlspecialchars($match['date_fin'] ?? 'N/A'); ?></code></span>
             </div>
@@ -119,10 +133,11 @@
             <h4 style="margin-bottom: 1rem;">Répartition par sport (Favoris)</h4>
             <?php if (isset($statsSports) && !empty($statsSports)): ?>
               <ul style="list-style: none; padding: 0;">
+              <?php $totalJoueursSafe = (int)($totalJoueurs ?? 0); ?>
               <?php foreach ($statsSports as $stat): 
                 $nb = $stat['count_joueurs'];
                 // On compare aux joueurs totaux inscrits
-                $pourcentage = ($totalJoueurs > 0) ? round(($nb / $totalJoueurs) * 100) : 0;
+                $pourcentage = ($totalJoueursSafe > 0) ? round(($nb / $totalJoueursSafe) * 100) : 0;
               ?>
                 <li style="margin-bottom: 1rem;">
                   <div style="display: flex; justify-content: space-between;">

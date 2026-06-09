@@ -20,6 +20,57 @@ class matchModele{
         return $matchs;
     }
 
+    function getAllNextMatchsWithSportAndLieu(string $currentDate){
+        $reqSQL = "SELECT m.id_match, m.libéllé, m.date_debut, m.date_fin,
+                          s.nom AS nom_sport,
+                          l.rue, l.n_rue, l.code_postal
+                   FROM match_ m
+                   JOIN sport s ON m.id_sport = s.id_sport
+                   JOIN lieu l ON m.id_lieu = l.id_lieu
+                   WHERE m.date_debut >= :date
+                   ORDER BY m.date_debut ASC;";
+        $requete = dataBase::get()->prepare($reqSQL);
+        $requete->BindValue(':date', $currentDate, PDO::PARAM_STR);
+        $requete->execute();
+        $matchs = $requete->fetchAll(PDO::FETCH_ASSOC);
+        return $matchs;
+    }
+
+        function getNextMatchsByJoueurWithSportAndLieu(int $idJoueur, string $currentDate, int $limit = 3){
+                $reqSQL = "SELECT m.id_match, m.libéllé, m.date_debut, m.date_fin,
+                                                    s.nom AS nom_sport,
+                                                    l.rue, l.n_rue, l.code_postal
+                                     FROM participe p
+                                     JOIN match_ m ON p.id_match = m.id_match
+                                     JOIN sport s ON m.id_sport = s.id_sport
+                                     JOIN lieu l ON m.id_lieu = l.id_lieu
+                                     WHERE p.id_joueur = :id_joueur
+                                         AND m.date_debut >= :date
+                                     ORDER BY m.date_debut ASC
+                                     LIMIT :limite;";
+                $requete = dataBase::get()->prepare($reqSQL);
+                $requete->BindValue(':id_joueur', $idJoueur, PDO::PARAM_INT);
+                $requete->BindValue(':date', $currentDate, PDO::PARAM_STR);
+                $requete->BindValue(':limite', $limit, PDO::PARAM_INT);
+                $requete->execute();
+                $matchs = $requete->fetchAll(PDO::FETCH_ASSOC);
+                return $matchs;
+        }
+
+        function getAllNextMatchsBySport(int $idSport, string $currentDate){
+                $reqSQL = "SELECT id_match, libéllé AS nom_match, date_debut, descriptif
+                                     FROM match_
+                                     WHERE id_sport = :id_sport
+                                         AND date_debut >= :date
+                                     ORDER BY date_debut ASC;";
+                $requete = dataBase::get()->prepare($reqSQL);
+                $requete->BindValue(':id_sport', $idSport, PDO::PARAM_INT);
+                $requete->BindValue(':date', $currentDate, PDO::PARAM_STR);
+                $requete->execute();
+                $matchs = $requete->fetchAll(PDO::FETCH_ASSOC);
+                return $matchs;
+        }
+
     function getMatchId(int $idMatch){
         $reqSQL="SELECT * FROM match_ WHERE id_match = :idMatch ;";
         $requete = dataBase::get()->prepare($reqSQL);

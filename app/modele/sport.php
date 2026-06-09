@@ -50,6 +50,19 @@ class SportModele {
         return $requete->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    function getStatsParticipationParSport() {
+        $reqSQL = "SELECT s.nom,
+                          COUNT(DISTINCT p.id_joueur) AS nb_participants
+                   FROM sport s
+                   LEFT JOIN match_ m ON m.id_sport = s.id_sport
+                   LEFT JOIN participe p ON p.id_match = m.id_match
+                   GROUP BY s.id_sport, s.nom
+                   ORDER BY nb_participants DESC, s.nom ASC;";
+        $requete = dataBase::get()->prepare($reqSQL);
+        $requete->execute();
+        return $requete->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     function deleteSportComplet(int $id_sport) {
         $db = dataBase::get();
         // 1. Supprimer les participations aux matchs de ce sport

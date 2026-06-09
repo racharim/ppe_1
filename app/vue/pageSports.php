@@ -29,6 +29,7 @@
               <th>ID</th>
               <th>Nom</th>
               <th>Description</th>
+              <th>Consultation</th>
               <?php if (isset($_SESSION['utilisateur']) && $_SESSION['utilisateur']->getTypeCompte() == 1): ?>
                 <th>Action</th>
               <?php endif; ?>
@@ -43,6 +44,10 @@
                 <td data-label="ID"><?php echo htmlspecialchars($sport['id_sport'] ?? $sport['id'] ?? ''); ?></td>
                 <td data-label="Nom"><?php echo htmlspecialchars($sport['nom'] ?? $sport['libelle'] ?? $sport['libéllé'] ?? ''); ?></td>
                 <td data-label="Description"><?php echo htmlspecialchars($sport['descriptif'] ?? $sport['description'] ?? ''); ?></td>
+                <td data-label="Consultation">
+                  <?php $sportId = $sport['id_sport'] ?? $sport['id'] ?? 0; ?>
+                  <a href="/ppe_1/public/index.php?page=pagesSports&id_sport=<?= (int)$sportId ?>" role="button" class="secondary outline" style="margin: 0;">Voir les matchs</a>
+                </td>
                 <?php if (isset($_SESSION['utilisateur']) && $_SESSION['utilisateur']->getTypeCompte() == 1): ?>
                 <td data-label="Action">
                   <?php 
@@ -75,6 +80,34 @@
             <?php endforeach; ?>
           </tbody>
         </table>
+      <?php endif; ?>
+
+      <?php if (!empty($sportSelectionne)) : ?>
+        <section style="margin-top: 2rem;">
+          <h3>Matchs a venir - <?php echo htmlspecialchars($sportSelectionne['nom'] ?? 'Sport'); ?></h3>
+          <?php if (empty($matchsSport)) : ?>
+            <p>Aucun match a venir pour ce sport.</p>
+          <?php else : ?>
+            <table role="table">
+              <thead>
+                <tr>
+                  <th>Match</th>
+                  <th>Date de debut</th>
+                  <th>Descriptif</th>
+                </tr>
+              </thead>
+              <tbody>
+                <?php foreach ($matchsSport as $matchSport) : ?>
+                  <tr>
+                    <td><?php echo htmlspecialchars($matchSport['nom_match'] ?? 'N/A'); ?></td>
+                    <td><?php echo htmlspecialchars($matchSport['date_debut'] ?? 'N/A'); ?></td>
+                    <td><?php echo htmlspecialchars($matchSport['descriptif'] ?? 'N/A'); ?></td>
+                  </tr>
+                <?php endforeach; ?>
+              </tbody>
+            </table>
+          <?php endif; ?>
+        </section>
       <?php endif; ?>
     </main>
   </body>

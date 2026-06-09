@@ -1,3 +1,4 @@
+<?php $page = $page ?? ($_GET['page'] ?? 'accueil'); ?>
 <nav>
     <a class="<?php echo ($page === 'agenda') ? 'active' : ''; ?>" href="/ppe_1/public/index.php?page=agenda">agenda des matchs</a>
 
@@ -8,6 +9,8 @@
     <?php if (isset($_SESSION['utilisateur']) && $_SESSION['utilisateur']->getTypeCompte() == 1) : ?>
     <a class="<?php echo ($page === 'mes_inscriptions') ? 'active' : ''; ?>" href="/ppe_1/public/index.php?page=mes_inscriptions">mes inscriptions</a>
     <?php endif; ?>
+
+    <a class="<?php echo ($page === 'stats_participation') ? 'active' : ''; ?>" href="/ppe_1/public/index.php?page=stats_participation">stats participation</a>
 
     <a class="<?php echo ($page === 'compte') ? 'active' : ''; ?>" href="/ppe_1/public/index.php?page=compte">mon compte</a>
   

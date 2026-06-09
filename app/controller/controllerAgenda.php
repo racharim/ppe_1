@@ -13,11 +13,13 @@ $matches = $matchModel->getAllNextMatchs(date('Y-m-d H:i:s'));
 // transforme les résultats en tableau utilisé par FullCalendar
 $events = [];
 foreach ($matches as $m) {
+    $idMatch = isset($m['id_match']) ? (int) $m['id_match'] : 0;
     $events[] = [
         'title' => $m['libéllé'] ?? 'Match',
-        'start' => $m['date_debut'] ?? '',
-        // si vous avez une page de détails, on peut l'ajouter ici
-        // 'url'   => '?page=match&id=' . ($m['id_match'] ?? 0),
+        'start' => $m['date_debut'] ?? null,
+        'end' => $m['date_fin'] ?? null,
+        'id' => $idMatch,
+        'url' => '/ppe_1/public/index.php?page=match_details&id=' . $idMatch,
     ];
 }
 

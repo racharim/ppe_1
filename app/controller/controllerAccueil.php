@@ -24,53 +24,68 @@ $favorisModele = new favorisModele();
 $matchs = [];
 $matchsRecommandes = [];
 
+$messageSucces = '';
+if (isset($_SESSION['messageSucces'])) {
+    $messageSucces = $_SESSION['messageSucces'];
+    unset($_SESSION['messageSucces']);
+}
+
+$messageErreur = '';
+if (isset($_SESSION['messageErreur'])) {
+    $messageErreur = $_SESSION['messageErreur'];
+    unset($_SESSION['messageErreur']);
+}
+
 // Récupérer les participations de l'utilisateur (joueur)
 if (isset($_SESSION['joueur']) && $_SESSION['utilisateur']->getTypeCompte() == 1) {
     $joueur = $_SESSION['joueur'];
     $idJoueur = $joueur->getIdJoueur();
-    
-    // Matchs auxquels il participe
-    $participation = $participeModele->getAllByJoueurID($idJoueur);
-    $tousLesMatchs = [];
-    if ($participation) {
-        foreach ($participation as $part) {
-            $match = $matchModele->getMatchId($part['id_match']);
-            if ($match) {
-                $tousLesMatchs[] = $match; 
-            }
-        }
-    }
-    
-    // Garder seulement les matchs futurs et trier par date chronologique
+
+    // 3 prochains matchs à venir avec sport et adresse du lieu
     $now = date('Y-m-d H:i:s');
-    $upcomingMatchs = [];
-    foreach ($tousLesMatchs as $m) {
-        if ($m['date_debut'] >= $now) {
-            $upcomingMatchs[] = $m;
-        }
-    }
-    
-    usort($upcomingMatchs, function($a, $b) {
-        return strtotime($a['date_debut']) - strtotime($b['date_debut']);
-    });
-    
-    // On ne garde que les 3 prochains
-    $matchs = array_slice($upcomingMatchs, 0, 3);
+    $matchs = $matchModele->getNextMatchsByJoueurWithSportAndLieu($idJoueur, $now, 3);
     
     // Matchs recommandés basés sur les sports favoris
     $matchsRecommandes = $matchModele->getMatchByFav($idJoueur);
-    if (!$matchsRecommandes) {
+    if ($matchsRecommandes) {
+        $matchsRecommandes = array_values(array_filter($matchsRecommandes, function($matchRec) use ($now) {
+            return isset($matchRec['date_debut']) && $matchRec['date_debut'] >= $now;
+        }));
+
+        usort($matchsRecommandes, function($a, $b) {
+            return strtotime($a['date_debut']) - strtotime($b['date_debut']);
+        });
+    } else {
         $matchsRecommandes = [];
     }
 
     // Gestion des inscriptions et désinscriptions
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
         if ($_POST['action'] === 'inscrire' && isset($_POST['id_match'])) {
-            $participeModele->addParticipation($idJoueur, (int)$_POST['id_match']);
+            $idMatch = (int)$_POST['id_match'];
+
+            if ($participeModele->isParticipating($idJoueur, $idMatch)) {
+                $_SESSION['messageErreur'] = "Inscription refusée : vous êtes déjà inscrit à ce match.";
+                header('Location: /ppe_1/public/index.php?page=accueil');
+                exit();
+            }
+
+            $capaciteMax = $participeModele->getMatchCapacity($idMatch);
+            $nbInscrits = $participeModele->getParticipantCountByMatchId($idMatch);
+
+            if ($capaciteMax > 0 && $nbInscrits >= $capaciteMax) {
+                $_SESSION['messageErreur'] = "Inscription refusée : le match est complet (" . $nbInscrits . "/" . $capaciteMax . ").";
+                header('Location: /ppe_1/public/index.php?page=accueil');
+                exit();
+            }
+
+            $participeModele->addParticipation($idJoueur, $idMatch);
+            $_SESSION['messageSucces'] = "Inscription confirmée au match.";
             header('Location: /ppe_1/public/index.php?page=accueil');
             exit();
         } elseif ($_POST['action'] === 'desinscrire' && isset($_POST['id_match'])) {
             $participeModele->removeParticipation($idJoueur, (int)$_POST['id_match']);
+            $_SESSION['messageSucces'] = "Désinscription effectuée.";
             header('Location: /ppe_1/public/index.php?page=accueil');
             exit();
         }

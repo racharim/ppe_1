@@ -7,6 +7,7 @@ if (session_status() === PHP_SESSION_NONE) {
 require_once __DIR__ . '/../modele/sport.php';
 require_once __DIR__ . '/../modele/favoris.php';
 require_once __DIR__ . '/../modele/joueur.php';
+require_once __DIR__ . '/../modele/match.php';
 
 if (!isset($_SESSION['utilisateur']) || !($_SESSION['utilisateur'] instanceof UtilisateurModele)) {
     // demander connexion via front controller
@@ -16,9 +17,12 @@ if (!isset($_SESSION['utilisateur']) || !($_SESSION['utilisateur'] instanceof Ut
 
 $SportModele = new SportModele();
 $favorisModele = new favorisModele();
+$matchModele = new matchModele();
 
 $sports = [];
 $sports = $SportModele->getAllSports();
+$sportSelectionne = null;
+$matchsSport = [];
 
 // Récupérer le joueur de la session
 $joueur = $_SESSION['joueur'] ?? null;
@@ -60,6 +64,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
         header('Location: /ppe_1/public/index.php?page=pagesSports');
         exit();
+    }
+}
+
+if (isset($_GET['id_sport'])) {
+    $idSportSelectionne = (int)$_GET['id_sport'];
+    if ($idSportSelectionne > 0) {
+        $sportSelectionne = $SportModele->getSportById($idSportSelectionne);
+        if ($sportSelectionne) {
+            $matchsSport = $matchModele->getAllNextMatchsBySport($idSportSelectionne, date('Y-m-d H:i:s'));
+        }
     }
 }
 

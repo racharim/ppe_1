@@ -141,7 +141,7 @@
 
                   <label for="id_lieu">Lieu du match
                     <select id="id_lieu" name="id_lieu" required>
-                      <?php foreach ($listeLieu as $lieu): ?>
+                      <?php foreach (($listeLieu ?? []) as $lieu): ?>
                         <option value="<?= $lieu['id_lieu'] ?>"><?= htmlspecialchars($lieu['rue'] . ' - ' . $lieu['code_postal']) ?></option>
                       <?php endforeach; ?>
                     </select>
@@ -242,7 +242,7 @@
 
               <label for="id_sport">Sport enseigné</label>
               <select name="id_sport" id="id_sport" required>
-                <?php foreach ($listeSport as $sport): ?>
+                <?php foreach (($listeSport ?? []) as $sport): ?>
                   <option value="<?= $sport['id_sport'] ?>"><?= $sport['nom'] ?></option>
                 <?php endforeach; ?>
               </select>
@@ -365,7 +365,7 @@
                 <div class="grid">
                   <label for="id_sport">Sport concerné
                     <select id="id_sport" name="id_sport" required>
-                      <?php foreach ($listeSport as $sport): ?>
+                      <?php foreach (($listeSport ?? []) as $sport): ?>
                         <option value="<?= $sport['id_sport'] ?>"><?= $sport['nom'] ?></option>
                       <?php endforeach; ?>
                     </select>
@@ -382,7 +382,7 @@
 
                 <label for="id_lieu">Lieu du match
                   <select id="id_lieu" name="id_lieu" required>
-                    <?php foreach ($listeLieu as $lieu): ?>
+                    <?php foreach (($listeLieu ?? []) as $lieu): ?>
                       <option value="<?= $lieu['id_lieu'] ?>"><?= $lieu['rue'] . ' - ' . $lieu['code_postal'] ?></option>
                     <?php endforeach; ?>
                   </select>
