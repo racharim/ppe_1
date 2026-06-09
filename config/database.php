@@ -3,7 +3,7 @@
 class dataBase {
 
     private static $pdo;
-    private static $dbDsn = 'mysql:host=172.22.100.17;dbname=ppe_1;';
+    private static $dbDsn = 'mysql:host=172.22.100.17;dbname=ppe1_alexis;';
     private static $dbUser = 'alexis';
     private static $dbPass = 'Bonjour123!';
     
