@@ -3,9 +3,9 @@
 class dataBase {
 
     private static $pdo;
-    private static $dbDsn = 'mysql:host=127.0.0.1;dbname=ppe_1;';
-    private static $dbUser = 'root';
-    private static $dbPass = '';
+    private static $dbDsn = 'mysql:host=172.22.100.17;dbname=ppe_1;';
+    private static $dbUser = 'alexis';
+    private static $dbPass = 'Bonjour123!';
     
     public static function get():pdo 
     {
