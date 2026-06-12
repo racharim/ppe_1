@@ -14,7 +14,7 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 if (!isset($_SESSION['utilisateur']) || !($_SESSION['utilisateur'] instanceof UtilisateurModele)) {
-    header('Location: /public/index.php?page=connexion');
+    header('Location: /index.php?page=connexion');
     exit();
 }
 $utilisateurSession = $_SESSION['utilisateur'];
@@ -90,7 +90,7 @@ if($utilisateurSession->getTypeCompte() == 1){
 
             $utilisateur->updateUtilisateur();
             $joueur->updateJoueur();
-            header('Location: /public/index.php?page=compte');
+            header('Location: /index.php?page=compte');
             exit();
         }
         
@@ -106,7 +106,7 @@ if($utilisateurSession->getTypeCompte() == 1){
                     $favorisModele->addFavoris($idJoueur, $idSport);
                     $_SESSION['messageSucces'] = "Sport ajouté à vos favoris !";
                 }
-                header('Location: /public/index.php?page=compte');
+                header('Location: /index.php?page=compte');
                 exit();
             }
     }
@@ -129,7 +129,7 @@ if($utilisateurSession->getTypeCompte() == 1){
             }
             $utilisateurSession->updateUtilisateur();
             $_SESSION['messageSucces'] = "Profil mis à jour !";
-            header('Location: /public/index.php?page=compte');
+            header('Location: /index.php?page=compte');
             exit();
         }
 
@@ -144,7 +144,7 @@ if($utilisateurSession->getTypeCompte() == 1){
                 $_POST['id_lieu']
             );
             $_SESSION['messageSucces'] = "Le match a bien été créé !";
-            header('Location: /public/index.php?page=compte');
+            header('Location: /index.php?page=compte');
             exit();
         }
     }
@@ -160,7 +160,7 @@ if($utilisateurSession->getTypeCompte() == 1){
         $sports->addSport($nom, $n_joueur, $desc);
         
         // Redirection pour éviter de renvoyer le formulaire en actualisant
-        header('Location: /public/index.php?page=compte');
+        header('Location: /index.php?page=compte');
         exit();
     }
 
@@ -168,7 +168,7 @@ if($utilisateurSession->getTypeCompte() == 1){
         $login = $_POST['login'];
         if ($utilisateurSession->isLoginTaken($login)) {
             $_SESSION['messageErreur'] = "Ce pseudo est déjà assigné à un autre utilisateur.";
-            header('Location: /public/index.php?page=compte');
+            header('Location: /index.php?page=compte');
             exit();
         }
         
@@ -191,7 +191,7 @@ if($utilisateurSession->getTypeCompte() == 1){
         $joueurModele = new joueurModele($tel, $mail, $idNiveau, $idUtilisateur);
         $joueurModele->createJoueur($joueurModele);
 
-        header('Location: /public/index.php?page=compte');
+        header('Location: /index.php?page=compte');
         exit();
     }
 
@@ -199,7 +199,7 @@ if($utilisateurSession->getTypeCompte() == 1){
         $login = $_POST['login'];
         if ($utilisateurSession->isLoginTaken($login)) {
             $_SESSION['messageErreur'] = "Ce pseudo est déjà assigné à un autre utilisateur.";
-            header('Location: /public/index.php?page=compte');
+            header('Location: /index.php?page=compte');
             exit();
         }
 
@@ -226,7 +226,7 @@ if($utilisateurSession->getTypeCompte() == 1){
         $monCoach->setSport($nomSport);
         $monCoach->createCoach();
 
-        header('Location: /public/index.php?page=compte');
+        header('Location: /index.php?page=compte');
         exit();
     }
 
@@ -234,7 +234,7 @@ if($utilisateurSession->getTypeCompte() == 1){
         $login = $_POST['login'];
         if ($utilisateurSession->isLoginTaken($login)) {
             $_SESSION['messageErreur'] = "Ce pseudo est déjà assigné à un autre utilisateur.";
-            header('Location: /public/index.php?page=compte');
+            header('Location: /index.php?page=compte');
             exit();
         }
 
@@ -250,7 +250,7 @@ if($utilisateurSession->getTypeCompte() == 1){
         $nouvelUtil->AjouterUtilisateur();
 
         $_SESSION['messageSucces'] = "Compte Administrateur créé avec succès !";
-        header('Location: /public/index.php?page=compte');
+        header('Location: /index.php?page=compte');
         exit();
     }
 
@@ -269,7 +269,7 @@ if($utilisateurSession->getTypeCompte() == 1){
                 $_POST['id_lieu']
             );
             $_SESSION['messageSucces'] = "Match créé avec succès !";
-            header('Location: /public/index.php?page=compte');
+            header('Location: /index.php?page=compte');
             exit();
         }
         
@@ -277,7 +277,7 @@ if($utilisateurSession->getTypeCompte() == 1){
             $idToDelete = (int)$_POST['id_utilisateur'];
             $utilisateurSession->deleteJoueurComplet($idToDelete);
             $_SESSION['messageSucces'] = "Joueur supprimé avec succès !";
-            header('Location: /public/index.php?page=compte');
+            header('Location: /index.php?page=compte');
             exit();
         }
 
@@ -285,7 +285,7 @@ if($utilisateurSession->getTypeCompte() == 1){
             $idToDelete = (int)$_POST['id_utilisateur'];
             $utilisateurSession->deleteCoachComplet($idToDelete);
             $_SESSION['messageSucces'] = "Coach supprimé avec succès !";
-            header('Location: /public/index.php?page=compte');
+            header('Location: /index.php?page=compte');
             exit();
         }
     }

@@ -95,7 +95,7 @@ $adresseLigneSafe = trim((string)($matchDetailsSafe['n_rue'] ?? '') . ' ' . (str
                 </div>
                 
                 <footer class="match-details-footer">
-                    <a href="/public/index.php?page=accueil" role="button" class="secondary">🔙 Retour au tableau de bord</a>
+                    <a href="/index.php?page=accueil" role="button" class="secondary">🔙 Retour au tableau de bord</a>
                     <?php if (isset($_SESSION['utilisateur']) && in_array((int)$_SESSION['utilisateur']->getTypeCompte(), [2, 3])): ?>
                         <a href="#edit" role="button" data-target="edit-modal" onClick="toggleModal(event)" class="btn-no-margin">✏️ Modifier le match</a>
                     <?php endif; ?>
@@ -111,7 +111,7 @@ $adresseLigneSafe = trim((string)($matchDetailsSafe['n_rue'] ?? '') . ' ' . (str
             <a href="#close" aria-label="Close" class="close" data-target="edit-modal" onClick="toggleModal(event)"></a>
             Modifier le match
         </header>
-        <form method="POST" action="/public/index.php?page=match_details&id=<?= $matchIdSafe ?>">
+        <form method="POST" action="/index.php?page=match_details&id=<?= $matchIdSafe ?>">
             <input type="hidden" name="action" value="edit_match">
             <input type="hidden" name="id_match" value="<?= $matchIdSafe ?>">
             

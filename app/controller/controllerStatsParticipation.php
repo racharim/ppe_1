@@ -7,7 +7,7 @@ if (session_status() === PHP_SESSION_NONE) {
 require_once __DIR__ . '/../modele/sport.php';
 
 if (!isset($_SESSION['utilisateur']) || !($_SESSION['utilisateur'] instanceof UtilisateurModele)) {
-    header('Location: /public/index.php?page=connexion');
+    header('Location: /index.php?page=connexion');
     exit();
 }
 

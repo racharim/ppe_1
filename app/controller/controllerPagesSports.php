@@ -11,7 +11,7 @@ require_once __DIR__ . '/../modele/match.php';
 
 if (!isset($_SESSION['utilisateur']) || !($_SESSION['utilisateur'] instanceof UtilisateurModele)) {
     // demander connexion via front controller
-    header('Location: /public/index.php?page=connexion');
+    header('Location: /index.php?page=connexion');
     exit();
 }
 
@@ -62,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['messageSucces'] = "Sport (et toutes ses données liées) supprimé avec succès.";
         }
         
-        header('Location: /public/index.php?page=pagesSports');
+        header('Location: /index.php?page=pagesSports');
         exit();
     }
 }
