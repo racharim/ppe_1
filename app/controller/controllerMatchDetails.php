@@ -9,7 +9,7 @@ require_once __DIR__ . '/../modele/participe.php';
 
 // Vérifier si l'utilisateur est authentifié (Optionnel mais recommandé)
 if (!isset($_SESSION['utilisateur'])) {
-    header('Location: /public/index.php?page=connexion');
+    header('Location: /index.php?page=connexion');
     exit();
 }
 
@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     
     $matchModele->updateMatch($id_match, $libelle, $descriptif, $date_debut, $date_fin);
     
-    header("Location: /public/index.php?page=match_details&id=$id_match&success=1");
+    header("Location: /index.php?page=match_details&id=$id_match&success=1");
     exit();
 }
 
@@ -45,7 +45,7 @@ if (isset($_GET['id'])) {
 
 // Rediriger si aucun match n'a été trouvé
 if (!$matchDetails) {
-    header('Location: /public/index.php?page=accueil');
+    header('Location: /index.php?page=accueil');
     exit();
 }
 

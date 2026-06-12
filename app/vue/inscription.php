@@ -26,7 +26,7 @@
                     <?php unset($_SESSION['errors']); ?>
                 <?php endif; ?>
                 
-                <form method="POST" action="/public/index.php?page=inscription" style="margin-bottom: 0;">
+                <form method="POST" action="/index.php?page=inscription" style="margin-bottom: 0;">
                     <div class="grid">
                         <label for="Prenom">Prénom
                             <input type="text" id="Prenom" name="Prenom" placeholder="Ex: Jean" required>
@@ -70,7 +70,7 @@
                     <button type="submit" style="margin-top: 1rem;">S'inscrire maintenant</button>
                 </form>
                 <div class="link-container">
-                    <a href="/public/index.php?page=connexion">Déjà inscrit ? Connectez-vous ici</a>
+                    <a href="/index.php?page=connexion">Déjà inscrit ? Connectez-vous ici</a>
                 </div>
             </article>
         </main>

@@ -18,7 +18,7 @@
                     </div>
                 <?php endif; ?>
 
-                <form method="POST" action="/public/index.php?page=connexion">
+                <form method="POST" action="/index.php?page=connexion">
                     <label for="login">Login (Pseudo)
                         <input type="text" id="login" name="login" required>
                     </label>
@@ -30,7 +30,7 @@
                     <button type="submit" style="margin-top: 1rem;">Se connecter</button>
                 </form>
                 <div class="link-container">
-                    <a href="/public/index.php?page=inscription">Pas encore de compte ? Inscrivez-vous ci-dessous</a>
+                    <a href="/index.php?page=inscription">Pas encore de compte ? Inscrivez-vous ci-dessous</a>
                 </div>
             </article>
         </main>
