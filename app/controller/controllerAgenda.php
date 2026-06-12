@@ -19,7 +19,7 @@ foreach ($matches as $m) {
         'start' => $m['date_debut'] ?? null,
         'end' => $m['date_fin'] ?? null,
         'id' => $idMatch,
-        'url' => '/ppe_1/public/index.php?page=match_details&id=' . $idMatch,
+        'url' => '/public/index.php?page=match_details&id=' . $idMatch,
     ];
 }
 

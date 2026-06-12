@@ -48,7 +48,7 @@ if (!empty($_POST)) {
     // Si des erreurs existent, stocker en session et rediriger
     if (!empty($errors)) {
         $_SESSION['errors'] = $errors;
-        header('Location: /ppe_1/public/index.php?page=inscription');
+        header('Location: /public/index.php?page=inscription');
         exit();
     }
 
@@ -76,6 +76,6 @@ if (!empty($_POST)) {
     $monJoueur = new joueurModele ($tel, $mail, $idNiveau, $monUtilisateur->getLastIdUtilisateur());
     $monJoueur->createJoueur($monJoueur);
     $_SESSION['joueur'] = $monJoueur;
-    header('Location: /ppe_1/public/index.php?page=accueil');
+    header('Location: /public/index.php?page=accueil');
     exit();
 }

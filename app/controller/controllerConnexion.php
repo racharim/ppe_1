@@ -32,7 +32,7 @@ if (!empty($_POST)) {
             $_SESSION['admin'] = $adminModele;
         }
         // redirection vers l'accueil via front controller
-        header('Location: /ppe_1/public/index.php?page=accueil');
+        header('Location: /public/index.php?page=accueil');
 
         exit();
     } else {

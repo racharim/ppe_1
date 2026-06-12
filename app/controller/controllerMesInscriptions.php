@@ -9,12 +9,12 @@ if (session_status() === PHP_SESSION_NONE) {
 
 if (!isset($_SESSION['utilisateur']) || !($_SESSION['utilisateur'] instanceof UtilisateurModele)) {
     // demander connexion via front controller
-    header('Location: /ppe_1/public/index.php?page=connexion');
+    header('Location: /public/index.php?page=connexion');
     exit();
 }
 
 if (!isset($_SESSION['joueur']) || $_SESSION['utilisateur']->getTypeCompte() != 1) {
-    header('Location: /ppe_1/public/index.php?page=accueil');
+    header('Location: /public/index.php?page=accueil');
     exit();
 }
 
@@ -28,7 +28,7 @@ $matchModele = new matchModele();
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
     if ($_POST['action'] === 'desinscrire' && isset($_POST['id_match'])) {
         $participeModele->removeParticipation($idJoueur, (int)$_POST['id_match']);
-        header('Location: /ppe_1/public/index.php?page=mes_inscriptions');
+        header('Location: /public/index.php?page=mes_inscriptions');
         exit();
     }
 }
