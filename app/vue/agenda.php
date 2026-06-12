@@ -13,8 +13,8 @@ if (!isset($eventsJson)) {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
     <link rel="stylesheet" href="/config/pico.css">
     <!-- utilisation de fichiers locaux plutôt que CDN (réseau peut être coupé) -->
-    <link id="fc-css" href="/public/fullcalendar/main.min.css" rel="stylesheet" />
-    <script src="/public/fullcalendar/dist/index.global.min.js"></script>
+    <link id="fc-css" href="/fullcalendar/main.min.css" rel="stylesheet" />
+    <script src="/fullcalendar/dist/index.global.min.js"></script>
 
     <style>
         /* juste un peu de style pour centrer le calendrier et assurer une hauteur minimale */
