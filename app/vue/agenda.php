@@ -11,10 +11,10 @@ if (!isset($eventsJson)) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Agenda des matchs</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
-    <link rel="stylesheet" href="/ppe_1/config/pico.css">
+    <link rel="stylesheet" href="/config/pico.css">
     <!-- utilisation de fichiers locaux plutôt que CDN (réseau peut être coupé) -->
-    <link id="fc-css" href="/ppe_1/public/fullcalendar/main.min.css" rel="stylesheet" />
-    <script src="/ppe_1/public/fullcalendar/dist/index.global.min.js"></script>
+    <link id="fc-css" href="/public/fullcalendar/main.min.css" rel="stylesheet" />
+    <script src="/public/fullcalendar/dist/index.global.min.js"></script>
 
     <style>
         /* juste un peu de style pour centrer le calendrier et assurer une hauteur minimale */

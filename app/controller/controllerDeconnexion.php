@@ -11,6 +11,6 @@ $_SESSION = array();
 session_destroy();
 
 // Rediriger vers la page de connexion via le front controller
-header('Location: /ppe_1/public/index.php?page=connexion');
+header('Location: /public/index.php?page=connexion');
 exit();
 ?>

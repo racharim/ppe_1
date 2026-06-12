@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mon compte</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
-    <link rel="stylesheet" href="/ppe_1/config/pico.css">
-    <script src="/ppe_1/config/tabs.js"></script>
+    <link rel="stylesheet" href="/config/pico.css">
+    <script src="/config/tabs.js"></script>
   </head>
   <body>
     <main>
@@ -20,7 +20,7 @@
         </div>
         <h3>Informations personnelles :</h3>
         <div>
-          <form method="POST" action="/ppe_1/public/index.php?page=compte">
+          <form method="POST" action="/public/index.php?page=compte">
             <input type="hidden" name="action" value="update_profil">
             <label for="nom">Nom : </label>
               <input type="text" id="nom" name="nom" value="<?php echo $_SESSION['utilisateur']->getNom(); ?>" required><br><br>
@@ -66,7 +66,7 @@
             ?>
             <div>
               <?php if(!empty($messageSucces)) { ?><p class="text-success"><?php echo htmlspecialchars((string)$messageSucces); ?></p><?php } ?>
-              <form method="POST" action="/ppe_1/public/index.php?page=compte">
+              <form method="POST" action="/public/index.php?page=compte">
                 <label for="sport">Ajouter un sport favori :</label>
                 <select id="sport" name="sport">
                   <?php
@@ -100,7 +100,7 @@
           <div id="profil_coach" class="tab-content active">
             <div class="admin-section">
               <h3>Modifier mes informations</h3>
-              <form method="POST" action="/ppe_1/public/index.php?page=compte">
+              <form method="POST" action="/public/index.php?page=compte">
                 <input type="hidden" name="action" value="update_profil_coach">
                 <label for="nom">Nom : </label>
                 <input type="text" id="nom" name="nom" value="<?= htmlspecialchars($_SESSION['utilisateur']->getNom()); ?>" required><br>
@@ -115,7 +115,7 @@
           <div id="matchs_coach" class="tab-content">
             <div class="admin-section">
               <h3>Créer un nouveau Match (<?= htmlspecialchars($nomSportCoach ?? 'votre sport') ?>)</h3>
-              <form method="POST" action="/ppe_1/public/index.php?page=compte">
+              <form method="POST" action="/public/index.php?page=compte">
                 <input type="hidden" name="action" value="add_match_coach">
                 
                 <label for="libelle">Nom de l'événement</label>
@@ -175,7 +175,7 @@
           <div class="admin-section">
             <h3>👤 Créer un nouveau Joueur</h3>
             
-            <form method="POST" action="/ppe_1/public/index.php?page=compte">
+            <form method="POST" action="/public/index.php?page=compte">
               <input type="hidden" name="action" value="add_joueur">
               
               <div class="grid">
@@ -219,7 +219,7 @@
           <div class="admin-section" style="margin-top: 2rem;">
             <h3>⚽ Créer un nouveau Coach</h3>
             
-            <form method="POST" action="/ppe_1/public/index.php?page=compte">
+            <form method="POST" action="/public/index.php?page=compte">
               <input type="hidden" name="action" value="add_coach">
               
               <div class="grid">
@@ -253,7 +253,7 @@
 
           <div class="admin-section" style="margin-top: 2rem; border-color: #3949ab;">
             <h3 style="color: #3949ab;">👑 Créer un nouvel Admin</h3>
-            <form method="POST" action="/ppe_1/public/index.php?page=compte">
+            <form method="POST" action="/public/index.php?page=compte">
               <input type="hidden" name="action" value="add_admin">
               
               <div class="grid">
@@ -280,7 +280,7 @@
           
           <div class="admin-section" style="margin-top: 2rem; border-color: #d81b60;">
             <h3 style="color: #d81b60;">🗑️ Supprimer un Joueur</h3>
-            <form method="POST" action="/ppe_1/public/index.php?page=compte">
+            <form method="POST" action="/public/index.php?page=compte">
               <input type="hidden" name="action" value="delete_joueur">
               <label for="delete_id_joueur">Sélectionner le joueur</label>
               <select name="id_utilisateur" id="delete_id_joueur" required>
@@ -298,7 +298,7 @@
 
           <div class="admin-section" style="margin-top: 2rem; border-color: #d81b60;">
             <h3 style="color: #d81b60;">🗑️ Supprimer un Coach</h3>
-            <form method="POST" action="/ppe_1/public/index.php?page=compte">
+            <form method="POST" action="/public/index.php?page=compte">
               <input type="hidden" name="action" value="delete_coach">
               <label for="delete_id_coach">Sélectionner le coach</label>
               <select name="id_utilisateur" id="delete_id_coach" required>
@@ -320,7 +320,7 @@
             <div class="admin-section">
               <h3>⚽ Ajouter un nouveau sport</h3>
               
-              <form method="POST" action="/ppe_1/public/index.php?page=compte">
+              <form method="POST" action="/public/index.php?page=compte">
                 <input type="hidden" name="action" value="add_sport">
                 
                 <div class="grid">
@@ -347,7 +347,7 @@
           <div id="matchs" class="tab-content">
             <div class="admin-section">
               <h3>🏆 Créer un nouveau Match</h3>
-              <form method="POST" action="/ppe_1/public/index.php?page=compte">
+              <form method="POST" action="/public/index.php?page=compte">
                 <input type="hidden" name="action" value="add_match">
                 
                 <label for="libelle">Nom du match</label>

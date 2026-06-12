@@ -12,7 +12,7 @@ $adresseLigneSafe = trim((string)($matchDetailsSafe['n_rue'] ?? '') . ' ' . (str
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Détails du Match - <?= htmlspecialchars($matchDetailsSafe['libéllé'] ?? $matchDetailsSafe['nom_match'] ?? 'Match') ?></title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
-    <link rel="stylesheet" href="/ppe_1/config/pico.css">
+    <link rel="stylesheet" href="/config/pico.css">
 </head>
 <body>
     <main class="container">
@@ -95,7 +95,7 @@ $adresseLigneSafe = trim((string)($matchDetailsSafe['n_rue'] ?? '') . ' ' . (str
                 </div>
                 
                 <footer class="match-details-footer">
-                    <a href="/ppe_1/public/index.php?page=accueil" role="button" class="secondary">🔙 Retour au tableau de bord</a>
+                    <a href="/public/index.php?page=accueil" role="button" class="secondary">🔙 Retour au tableau de bord</a>
                     <?php if (isset($_SESSION['utilisateur']) && in_array((int)$_SESSION['utilisateur']->getTypeCompte(), [2, 3])): ?>
                         <a href="#edit" role="button" data-target="edit-modal" onClick="toggleModal(event)" class="btn-no-margin">✏️ Modifier le match</a>
                     <?php endif; ?>
@@ -111,7 +111,7 @@ $adresseLigneSafe = trim((string)($matchDetailsSafe['n_rue'] ?? '') . ' ' . (str
             <a href="#close" aria-label="Close" class="close" data-target="edit-modal" onClick="toggleModal(event)"></a>
             Modifier le match
         </header>
-        <form method="POST" action="/ppe_1/public/index.php?page=match_details&id=<?= $matchIdSafe ?>">
+        <form method="POST" action="/public/index.php?page=match_details&id=<?= $matchIdSafe ?>">
             <input type="hidden" name="action" value="edit_match">
             <input type="hidden" name="id_match" value="<?= $matchIdSafe ?>">
             

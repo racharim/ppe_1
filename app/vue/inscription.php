@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Inscription - Antigravity Sport</title>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
-        <link rel="stylesheet" href="/ppe_1/config/pico.css">
+        <link rel="stylesheet" href="/config/pico.css">
     </head>
     <body class="auth-page-body">
         <main class="container auth-container">
@@ -26,7 +26,7 @@
                     <?php unset($_SESSION['errors']); ?>
                 <?php endif; ?>
                 
-                <form method="POST" action="/ppe_1/public/index.php?page=inscription" style="margin-bottom: 0;">
+                <form method="POST" action="/public/index.php?page=inscription" style="margin-bottom: 0;">
                     <div class="grid">
                         <label for="Prenom">Prénom
                             <input type="text" id="Prenom" name="Prenom" placeholder="Ex: Jean" required>
@@ -70,7 +70,7 @@
                     <button type="submit" style="margin-top: 1rem;">S'inscrire maintenant</button>
                 </form>
                 <div class="link-container">
-                    <a href="/ppe_1/public/index.php?page=connexion">Déjà inscrit ? Connectez-vous ici</a>
+                    <a href="/public/index.php?page=connexion">Déjà inscrit ? Connectez-vous ici</a>
                 </div>
             </article>
         </main>

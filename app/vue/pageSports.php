@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Liste des sports</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
-    <link rel="stylesheet" href="/ppe_1/config/pico.css">
+    <link rel="stylesheet" href="/config/pico.css">
   </head>
   <body>
     <main>
@@ -46,7 +46,7 @@
                 <td data-label="Description"><?php echo htmlspecialchars($sport['descriptif'] ?? $sport['description'] ?? ''); ?></td>
                 <td data-label="Consultation">
                   <?php $sportId = $sport['id_sport'] ?? $sport['id'] ?? 0; ?>
-                  <a href="/ppe_1/public/index.php?page=pagesSports&id_sport=<?= (int)$sportId ?>" role="button" class="secondary outline" style="margin: 0;">Voir les matchs</a>
+                  <a href="/public/index.php?page=pagesSports&id_sport=<?= (int)$sportId ?>" role="button" class="secondary outline" style="margin: 0;">Voir les matchs</a>
                 </td>
                 <?php if (isset($_SESSION['utilisateur']) && $_SESSION['utilisateur']->getTypeCompte() == 1): ?>
                 <td data-label="Action">
@@ -54,7 +54,7 @@
                   $sportId = $sport['id_sport'] ?? $sport['id'] ?? 0;
                   $estFavori = in_array($sportId, $mesFavoris ?? []);
                   ?>
-                  <form method="POST" action="/ppe_1/public/index.php?page=pagesSports" style="margin: 0;">
+                  <form method="POST" action="/public/index.php?page=pagesSports" style="margin: 0;">
                     <input type="hidden" name="id_sport" value="<?= $sportId ?>">
                     <?php if ($estFavori): ?>
                       <input type="hidden" name="action" value="desinscrire">
@@ -69,7 +69,7 @@
                 <?php if (isset($_SESSION['utilisateur']) && $_SESSION['utilisateur']->getTypeCompte() == 3): ?>
                 <td data-label="Administration">
                   <?php $sportId = $sport['id_sport'] ?? $sport['id'] ?? 0; ?>
-                  <form method="POST" action="/ppe_1/public/index.php?page=pagesSports" style="margin: 0;">
+                  <form method="POST" action="/public/index.php?page=pagesSports" style="margin: 0;">
                     <input type="hidden" name="id_sport" value="<?= $sportId ?>">
                     <input type="hidden" name="action" value="delete_sport">
                     <button type="submit" style="background-color: #d81b60; border-color: #d81b60;" onclick="return confirm('Êtes-vous sûr de vouloir supprimer définitivement ce sport ? (Ceci effacera aussi les données liées : matchs, coachs affectés, etc.)');">Supprimer</button>

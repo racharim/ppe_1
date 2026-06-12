@@ -12,7 +12,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
 if (!isset($_SESSION['utilisateur']) || !($_SESSION['utilisateur'] instanceof UtilisateurModele)) {
     // demander connexion via front controller
-    header('Location: /ppe_1/public/index.php?page=connexion');
+    header('Location: /public/index.php?page=connexion');
     exit();
 }
 
@@ -66,7 +66,7 @@ if (isset($_SESSION['joueur']) && $_SESSION['utilisateur']->getTypeCompte() == 1
 
             if ($participeModele->isParticipating($idJoueur, $idMatch)) {
                 $_SESSION['messageErreur'] = "Inscription refusée : vous êtes déjà inscrit à ce match.";
-                header('Location: /ppe_1/public/index.php?page=accueil');
+                header('Location: /public/index.php?page=accueil');
                 exit();
             }
 
@@ -75,18 +75,18 @@ if (isset($_SESSION['joueur']) && $_SESSION['utilisateur']->getTypeCompte() == 1
 
             if ($capaciteMax > 0 && $nbInscrits >= $capaciteMax) {
                 $_SESSION['messageErreur'] = "Inscription refusée : le match est complet (" . $nbInscrits . "/" . $capaciteMax . ").";
-                header('Location: /ppe_1/public/index.php?page=accueil');
+                header('Location: /public/index.php?page=accueil');
                 exit();
             }
 
             $participeModele->addParticipation($idJoueur, $idMatch);
             $_SESSION['messageSucces'] = "Inscription confirmée au match.";
-            header('Location: /ppe_1/public/index.php?page=accueil');
+            header('Location: /public/index.php?page=accueil');
             exit();
         } elseif ($_POST['action'] === 'desinscrire' && isset($_POST['id_match'])) {
             $participeModele->removeParticipation($idJoueur, (int)$_POST['id_match']);
             $_SESSION['messageSucces'] = "Désinscription effectuée.";
-            header('Location: /ppe_1/public/index.php?page=accueil');
+            header('Location: /public/index.php?page=accueil');
             exit();
         }
     }

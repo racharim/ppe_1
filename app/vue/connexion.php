@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Connexion</title>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
-        <link rel="stylesheet" href="/ppe_1/config/pico.css">
+        <link rel="stylesheet" href="/config/pico.css">
     </head>
     <body class="auth-page-body">
         <main class="container auth-container" style="max-width: 500px;">
@@ -18,7 +18,7 @@
                     </div>
                 <?php endif; ?>
 
-                <form method="POST" action="/ppe_1/public/index.php?page=connexion">
+                <form method="POST" action="/public/index.php?page=connexion">
                     <label for="login">Login (Pseudo)
                         <input type="text" id="login" name="login" required>
                     </label>
@@ -30,7 +30,7 @@
                     <button type="submit" style="margin-top: 1rem;">Se connecter</button>
                 </form>
                 <div class="link-container">
-                    <a href="/ppe_1/public/index.php?page=inscription">Pas encore de compte ? Inscrivez-vous ci-dessous</a>
+                    <a href="/public/index.php?page=inscription">Pas encore de compte ? Inscrivez-vous ci-dessous</a>
                 </div>
             </article>
         </main>

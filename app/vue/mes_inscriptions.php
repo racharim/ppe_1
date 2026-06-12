@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mes Inscriptions</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
-    <link rel="stylesheet" href="/ppe_1/config/pico.css">
+    <link rel="stylesheet" href="/config/pico.css">
   </head>
   <body>
     <main>
@@ -28,8 +28,8 @@
               <span>Fin: <code><?php echo htmlspecialchars($match['date_fin'] ?? 'N/A'); ?></code></span>
             </div>
             <div style="margin-top: 0.5rem;">
-              <a href="/ppe_1/public/index.php?page=match_details&id=<?= $match['id_match'] ?>" role="button" class="secondary outline" style="padding: 0.25rem 0.75rem; font-size: 0.875rem;">Voir les détails</a>
-              <form method="POST" action="/ppe_1/public/index.php?page=mes_inscriptions" style="display:inline;">
+              <a href="/public/index.php?page=match_details&id=<?= $match['id_match'] ?>" role="button" class="secondary outline" style="padding: 0.25rem 0.75rem; font-size: 0.875rem;">Voir les détails</a>
+              <form method="POST" action="/public/index.php?page=mes_inscriptions" style="display:inline;">
                 <input type="hidden" name="action" value="desinscrire">
                 <input type="hidden" name="id_match" value="<?php echo $match['id_match']; ?>">
                 <button type="submit" class="outline" style="padding: 0.25rem 0.75rem; font-size: 0.875rem; margin-left: 0.5rem; color: #d81b60; border-color: #d81b60;">Se désinscrire</button>
@@ -43,7 +43,7 @@
         }
         ?>
         <div style="margin-top: 1rem;">
-          <a href="/ppe_1/public/index.php?page=accueil" role="button" class="secondary outline">Retour à l'accueil</a>
+          <a href="/public/index.php?page=accueil" role="button" class="secondary outline">Retour à l'accueil</a>
         </div>
       </section>
     </main>
